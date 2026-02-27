@@ -44,7 +44,13 @@ const WhatWeDo = () => {
 
   return (
     <section className="px-6 md:px-10 max-w-7xl mx-auto py-24 border-t border-black/5">
-      <div className="flex flex-col mb-16">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="flex flex-col mb-16"
+      >
         <span className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">
           02. What We Do
         </span>
@@ -52,12 +58,16 @@ const WhatWeDo = () => {
           Turning caffeine into <br />
           <span className="text-gray-400 font-pixel uppercase text-3xl">functional code.</span>
         </h2>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {services.map((service, index) => (
-          <div 
+          <motion.div 
             key={index}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
             className="group p-8 bg-gray-50 rounded-[2rem] hover:bg-black hover:text-white transition-all duration-500 flex flex-col justify-between min-h-[280px]"
           >
             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-black shadow-sm group-hover:scale-110 transition-transform duration-500">
@@ -72,7 +82,7 @@ const WhatWeDo = () => {
                 {service.description}
               </p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -91,57 +101,89 @@ const Executives = () => {
 
   return (
     <section className="px-6 md:px-10 max-w-6xl mx-auto py-12 border-t border-black/5">
-      <div className="flex flex-col mb-10">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="flex flex-col mb-10"
+      >
         <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-2">
           03. Our Leadership
         </span>
-        <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
+        <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight" >
           The minds behind <br />
           <span className="text-gray-400 font-pixel uppercase text-xl">the innovation.</span>
         </h2>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
         {/* President - Slightly Narrower */}
-        <div className="lg:col-span-4 group relative overflow-hidden rounded-[1.5rem] bg-gray-100 aspect-square lg:aspect-auto lg:h-full">
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="lg:col-span-4 group relative overflow-hidden rounded-[1.5rem] bg-gray-100 aspect-square lg:aspect-auto lg:h-full"
+        >
           <img src={leaders[0].image} alt={leaders[0].name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
             <span className="text-[9px] font-mono uppercase tracking-widest opacity-70 mb-1">{leaders[0].role}</span>
             <h3 className="text-2xl font-bold tracking-tighter">{leaders[0].name}</h3>
             <p className="text-white/60 text-[10px] mt-2 max-w-[200px] italic leading-relaxed">"{leaders[0].quote}"</p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right side Grid - More compact */}
         <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-3">
-          {/* Vice President - Now only spans 2 columns in the sub-grid instead of full width */}
-          <div className="col-span-2 group relative overflow-hidden rounded-[1.2rem] bg-gray-100 aspect-[16/9] md:aspect-auto">
+          {/* Vice President */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="col-span-2 group relative overflow-hidden rounded-[1.2rem] bg-gray-100 aspect-[16/9] md:aspect-auto"
+          >
              <img src={leaders[1].image} alt={leaders[1].name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
                 <span className="text-[9px] font-mono uppercase tracking-widest opacity-70 mb-1">{leaders[1].role}</span>
                 <h4 className="text-lg font-bold">{leaders[1].name}</h4>
              </div>
-          </div>
+          </motion.div>
 
-          {/* HR, Treasurer, Secretary & Link Card - All uniform small squares */}
+          {/* HR, Treasurer, Secretary */}
           {[leaders[2], leaders[3], leaders[4]].map((leader, i) => (
-            <div key={i} className="group relative overflow-hidden rounded-[1.2rem] bg-gray-100 aspect-square">
+            <motion.div 
+              key={i} 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 + (i * 0.1) }}
+              className="group relative overflow-hidden rounded-[1.2rem] bg-gray-100 aspect-square"
+            >
               <img src={leader.image} alt={leader.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 text-white">
                  <span className="text-[8px] font-mono uppercase tracking-widest opacity-70 mb-1">{leader.role}</span>
                  <h4 className="text-sm font-bold leading-tight">{leader.name}</h4>
               </div>
-            </div>
+            </motion.div>
           ))}
           
-          {/* Club Members Link Card - Matches the small square size */}
-          <a href="/members-view" className="group relative overflow-hidden rounded-[1.2rem] bg-black aspect-square flex flex-col items-center justify-center text-center p-4 hover:bg-gray-900 transition-all duration-300 border border-white/5">
+          {/* Club Members Link Card */}
+          <motion.a 
+            href="/members-view" 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", damping: 15, delay: 0.6 }}
+            className="group relative overflow-hidden rounded-[1.2rem] bg-black aspect-square flex flex-col items-center justify-center text-center p-4 hover:bg-gray-900 transition-all duration-300 border border-white/5"
+          >
              <div className="mb-2 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-colors">
                <ArrowUpRight size={16} />
              </div>
              <span className="text-white font-bold text-xs tracking-tight leading-tight">Meet the<br/>Full Squad</span>
              <span className="text-white/40 text-[7px] mt-1 font-mono uppercase">Directory</span>
-          </a>
+          </motion.a>
         </div>
       </div>
     </section>
@@ -177,7 +219,13 @@ const Projects = () => {
 
   return (
     <section className="px-6 md:px-10 max-w-7xl mx-auto py-24 border-t border-black/5">
-      <div className="flex flex-col mb-16">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="flex flex-col mb-16"
+      >
         <span className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">
           04. Selected Works
         </span>
@@ -185,11 +233,18 @@ const Projects = () => {
           Recent solutions <br />
           <span className="text-gray-400 font-pixel uppercase text-3xl">shipped to production.</span>
         </h2>
-      </div>
+      </motion.div>
 
       <div className="space-y-32">
         {projects.map((project, index) => (
-          <div key={index} className="grid lg:grid-cols-2 gap-12 items-center group">
+          <motion.div 
+            key={index} 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="grid lg:grid-cols-2 gap-12 items-center group"
+          >
             <div className={`relative overflow-hidden rounded-[2rem] bg-gray-100 aspect-video ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
                <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                <div className="absolute top-6 right-6 flex gap-2">
@@ -224,7 +279,7 @@ const Projects = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -308,7 +363,13 @@ const MemberGrid = () => {
   );
 };
 const CallToAction = () => (
-  <section className="px-6 md:px-10 max-w-7xl mx-auto py-32">
+  <motion.section 
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8 }}
+    className="px-6 md:px-10 max-w-7xl mx-auto py-32"
+  >
     <div className="bg-gray-50 rounded-[3rem] p-8 md:p-20 overflow-hidden relative group">
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-black/5 rounded-full blur-3xl group-hover:bg-black/10 transition-colors duration-700" />
@@ -336,38 +397,66 @@ const CallToAction = () => (
         </a>
       </div>
     </div>
-  </section>
+  </motion.section>
 );
 const Hero = () => (
   // Updated max-width and padding for proper alignment with the rest of the site
   <section className="px-6 md:px-10 max-w-7xl mx-auto flex-1 flex flex-col justify-center pb-10 relative isolate">
     
     {/* Background Image/Blob - Scaled dimensions and blur */}
-    <div className="absolute -bottom-15 left-5 w-92 h-90 -translate-x-1/2 -translate-y-1/4 blur-[5px] opacity-70 pointer-events-none">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 0.7, scale: 1 }}
+      transition={{ duration: 1.5, ease: "easeOut" }}
+      className="absolute -bottom-15 left-5 w-92 h-90 -translate-x-1/2 -translate-y-1/4 blur-[5px] pointer-events-none"
+    >
       <img src="/image11.png" alt="" className="w-full h-full object-cover" />
-    </div>
+    </motion.div>
 
     <div className="flex flex-col-reverse md:flex-row justify-between items-start gap-6 mt-6 relative z-10">
       <div className="relative flex flex-col items-start -ml-2 md:-ml-70">
         
-        {/* Scaled TextScramble: text-2xl -> text-sm/base - Added -ml-2 to align text with heading */}
-        <TextScramble
-          className="text-sm font-extrabold font-pixel tracking-[0.2em] bg-black text-white mb-3 px-2 py-1 inline-block"
-          duration={1.2}
-          characterSet=". "
+        {/* Scaled TextScramble */}
+        <motion.div
+           initial={{ opacity: 0, x: -20 }}
+           animate={{ opacity: 1, x: 0 }}
+           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          We build and craft digital solutions 
-        </TextScramble>
+          <TextScramble
+            className="text-sm font-extrabold font-pixel tracking-[0.2em] bg-black text-white mb-3 px-2 py-1 inline-block"
+            duration={1.2}
+            characterSet=". "
+          >
+            We build and craft digital solutions 
+          </TextScramble>
+        </motion.div>
 
-        {/* Scaled Heading: text-12rem -> text-6xl */}
-        <h1 className="text-2xl md:text-[5rem] lg:text-[6rem] font-bold leading-[0.85] font-pixel tracking-tighter md:mt-82">
+        {/* Scaled Heading */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.1, delay: 0.1 }}
+          className="text-2xl md:text-[5rem] lg:text-[6rem] font-bold leading-[0.85] font-pixel tracking-tighter md:mt-82"
+        >
           Biust<br />Innovation Club
-        </h1>
+        </motion.h1>
 
-        {/* DESKTOP GROUP: Scaled positioning and buttons */}
+        {/* DESKTOP GROUP */}
         <div className="hidden lg:flex absolute -bottom-20 left-[115%] flex-col gap-3 items-end">
-          <div className='flex justify-end scale-75 origin-right '> <MemberGrid /></div>
-          <div className="flex self-end justify-end origin-right flex-row gap-2 whitespace-nowrap">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className='flex justify-end scale-75 origin-right '
+          > 
+            <MemberGrid />
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+            className="flex self-end justify-end origin-right flex-row gap-2 whitespace-nowrap"
+          >
             <button className="group flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xs text-sm font-bold hover:scale-105 transition-all shadow-xl">
               Join
               <ArrowUpRight size={14} strokeWidth={3} />
@@ -375,21 +464,31 @@ const Hero = () => (
             <button className="group flex items-center gap-2 border-2 border-black bg-white/50 backdrop-blur-sm px-4 py-2.5 rounded-xs text-sm font-bold hover:bg-black hover:text-white transition-all">
               Work with us
             </button>
-          </div>
+          </motion.div>
         </div>
 
-        {/* MOBILE GROUP: Scaled spacing */}
-        <div className="flex lg:hidden flex-col gap-3 mt-6">
+        {/* MOBILE GROUP */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="flex lg:hidden flex-col gap-3 mt-6"
+        >
            <div className="scale-75 origin-left"><MemberGrid /></div>
            <div className="flex gap-2">
              <button className="bg-black text-white px-3 py-2 rounded-lg font-bold text-sm">Join</button>
              <button className="border-2 border-black px-3 py-2 rounded-lg font-bold text-sm">Work</button>
            </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Hero Image Card - Scaled W/H and typography */}
-      <div className="max-w-[160px] pb-2 md:-mt-8 md:translate-x-6 lg:translate-x-10">
+      {/* Hero Image Card */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: 0.1, delay: 0.1 }}
+        className="max-w-[160px] pb-2 md:-mt-8 md:translate-x-6 lg:translate-x-10"
+      >
         <div className="w-24 h-32 md:w-[340px] md:h-[240px] bg-gray-200 rounded-[0.25rem] mb-5 overflow-hidden shadow-xl ring-1 ring-black/5 transition-all duration-700 hover:scale-[1.02]">
           <img src="/other.png" alt="Profile" className="object-cover w-full h-full hover:scale-110 transition-transform duration-1000" />
         </div>
@@ -397,9 +496,7 @@ const Hero = () => (
         <p className="w-24 md:w-[340px] text-[10px] md:text-xs text-gray-600 leading-relaxed font-medium">
           Based in Botswana. Driving the future through collaboration and rapid prototyping.
         </p>
-    
-      </div>
-    
+      </motion.div>
     </div>
   </section>
 );
@@ -432,7 +529,13 @@ export default function Portfolio() {
       {/* WRAPPER FOR FULL PAGE END */}
 
       {/* Partner Companies Slider */}
-      <section className="px-6 md:px-10 max-w-7xl mx-auto py-16">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="px-6 md:px-10 max-w-7xl mx-auto py-16"
+      >
         <div className="text-center mb-8">
           <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Our Partners</span>
           <h3 className="text-xl md:text-2xl font-medium mt-2 text-gray-600">
@@ -471,7 +574,7 @@ export default function Portfolio() {
             className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity"
           />
         </InfiniteSlider>
-      </section>
+      </motion.section>
 
       <main>
         {/* Intro Video Section */}
@@ -479,7 +582,12 @@ export default function Portfolio() {
         <Executives />
         <Projects />
         <section className="px-6 md:px-10 max-w-7xl mx-auto py-24 grid md:grid-cols-2 gap-16 md:gap-24 items-center">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Passion</span>
             <h2 className="text-3xl md:text-4xl font-medium mt-4 mb-8">
               Design has always been more than just a job — it's my passion.
@@ -492,29 +600,51 @@ export default function Portfolio() {
                 </div>
               </button>
             </div>
-          </div>
+          </motion.div>
           <div className="flex flex-col justify-center gap-12 md:pl-12">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <span className="text-5xl md:text-6xl font-medium">+320</span>
               <p className="text-gray-500 mt-3 text-lg">Projects completed for global clients across various industries.</p>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
               <span className="text-5xl md:text-6xl font-medium">+280</span>
               <p className="text-gray-500 mt-3 text-lg">Happy clients who have seen significant growth in their digital presence.</p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
       </main>
 
+      <CallToAction />
+
       <div ref={lastSectionRef} className="min-h-screen flex flex-col justify-center items-center text-center px-6">
-        <h2 className="text-5xl md:text-8xl font-medium tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+        <motion.h2 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="text-5xl md:text-8xl font-medium tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400"
+        >
           The next chapter <br /> starts here.
-        </h2>
-        <p className="text-xl md:text-2xl opacity-60 max-w-2xl mb-12">
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="text-xl md:text-2xl opacity-60 max-w-2xl mb-12"
+        >
           We're constantly pushing the boundaries of what's possible. 
           New projects, new collaborations, and new ways to innovate.
-        </p>
+        </motion.p>
       </div>
 
       <Footer />

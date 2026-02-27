@@ -18,7 +18,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-pixel: var(--font-geist-pixel-triangle);
+  --font-pixel-line: var(--font-geist-pixel-line);
+  --font-pixel-triangle: var(--font-geist-pixel-triangle);
+  --font-pixel-circle: var(--font-geist-pixel-circle);
+
+  --font-pixel-square: var(--font-geist-pixel-square);
+  --font-pixel-grid: var(--font-geist-pixel-grid);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

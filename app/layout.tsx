@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelTriangle.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelTriangle.variable} ${GeistPixelLine.variable} ${GeistPixelCircle.variable} ${GeistPixelSquare.variable} ${GeistPixelGrid.variable} antialiased`}
       >
         <AppProviders>
           <Navbar />
