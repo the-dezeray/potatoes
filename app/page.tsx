@@ -404,11 +404,11 @@ const Hero = () => (
     >
       <div className="relative w-full h-full">
         <img
-          src="/image3.png"
+          src="/image5.png"
           alt=""
           className="w-full h-full object-cover opacity-100 blur-[6px]"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-white" />
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-black/10 to-white" />
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-white" />
       </div>
     </motion.div>
