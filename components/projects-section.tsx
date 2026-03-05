@@ -40,7 +40,7 @@ export const ProjectsSection = () => (
       transition={{ duration: 0.8 }}
       className="flex flex-col mb-16"
     >
-      <span className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">
+      <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#6b6b6b] mb-4">
         04. Selected Works
       </span>
       <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
@@ -73,19 +73,19 @@ export const ProjectsSection = () => (
 
           <div className="flex flex-col gap-6">
             <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-black/40 mb-2 block">{project.category}</span>
+              <span className="text-xs font-mono uppercase tracking-widest text-[#6b6b6b] mb-2 block">{project.category}</span>
               <h3 className="text-3xl md:text-4xl font-bold tracking-tighter">{project.title}</h3>
             </div>
             <div className="space-y-4">
               <div>
-                <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/60 mb-2">The Problem</h4>
-                <p className="text-gray-500 leading-relaxed max-w-sm">{project.problem}</p>
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#6b6b6b] mb-2">The Problem</h4>
+                <p className="text-[#555555] leading-relaxed max-w-sm">{project.problem}</p>
               </div>
               <div>
-                <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/60 mb-2">Tech Stack</h4>
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#6b6b6b] mb-2">Tech Stack</h4>
                 <div className="flex flex-wrap gap-2">
                   {project.tech.map((t, i) => (
-                    <span key={i} className="px-3 py-1 bg-gray-100 rounded-full text-[10px] font-bold uppercase tracking-wider">{t}</span>
+                    <span key={i} className="px-3 py-1 bg-[#8ecfc8]/30 border border-[#1c1c1c]/20 text-[#1c1c1c] rounded-full text-[10px] font-bold uppercase tracking-wider">{t}</span>
                   ))}
                 </div>
               </div>

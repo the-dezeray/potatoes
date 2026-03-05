@@ -13,8 +13,8 @@ export const PartnersSlider = () => (
     className="px-6 md:px-10 max-w-7xl mx-auto py-16"
   >
     <div className="text-center mb-8">
-      <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Our Partners</span>
-      <h3 className="text-xl md:text-2xl font-medium mt-2 text-gray-600">
+      <span className="text-xs font-bold uppercase tracking-widest text-[#6b6b6b]">Our Partners</span>
+      <h3 className="text-xl md:text-2xl font-medium mt-2 text-[#555555]">
         Trusted by industry leaders
       </h3>
     </div>

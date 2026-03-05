@@ -36,7 +36,7 @@ export const WhatWeDo = () => (
       transition={{ duration: 0.8, ease: 'easeOut' }}
       className="flex flex-col mb-16"
     >
-      <span className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">
+      <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#6b6b6b] mb-4">
         02. What We Do
       </span>
       <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
@@ -53,14 +53,14 @@ export const WhatWeDo = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: index * 0.1 }}
-          className="group p-8 bg-gray-50 rounded-[2rem] hover:bg-black hover:text-white transition-all duration-500 flex flex-col justify-between min-h-70"
+          className="group p-8 bg-[#FAF6EF] border-2 border-[#1c1c1c] shadow-[4px_4px_0_#1c1c1c] rounded-[2rem] hover:bg-[#1c1c1c] hover:text-white transition-all duration-500 flex flex-col justify-between min-h-70"
         >
-          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-black shadow-sm group-hover:scale-110 transition-transform duration-500">
+          <div className="w-12 h-12 bg-[#fbd35a] rounded-2xl flex items-center justify-center text-[#1c1c1c] shadow-sm group-hover:scale-110 transition-transform duration-500">
             {service.icon}
           </div>
           <div>
             <h3 className="text-xl font-bold mb-3 tracking-tight">{service.title}</h3>
-            <p className="text-gray-500 group-hover:text-gray-300 leading-relaxed text-sm">
+            <p className="text-[#555555] group-hover:text-gray-300 leading-relaxed text-sm">
               {service.description}
             </p>
           </div>

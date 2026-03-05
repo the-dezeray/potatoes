@@ -21,7 +21,7 @@ export const Executives = () => (
       transition={{ duration: 0.8 }}
       className="flex flex-col mb-10"
     >
-      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-2">
+      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#6b6b6b] mb-2">
         03. Our Leadership
       </span>
       <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
@@ -89,7 +89,7 @@ export const Executives = () => (
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ type: 'spring', damping: 15, delay: 0.6 }}
-          className="group relative overflow-hidden rounded-[1.2rem] bg-black aspect-square flex flex-col items-center justify-center text-center p-4 hover:bg-gray-900 transition-all duration-300 border border-white/5"
+          className="group relative overflow-hidden rounded-[1.2rem] bg-[#1c1c1c] aspect-square flex flex-col items-center justify-center text-center p-4 hover:bg-[#363636] transition-all duration-300 border-2 border-[#1c1c1c] shadow-[3px_3px_0_#555]"
         >
           <div className="mb-2 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-colors">
             <ArrowUpRight size={16} />
