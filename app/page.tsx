@@ -52,7 +52,7 @@ export default function Portfolio() {
         <PassionStats />
       </main>
 
-      <CallToAction />
+
 
       <ClosingSection ref={lastSectionRef} />
 

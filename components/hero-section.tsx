@@ -86,13 +86,7 @@ export default function HeroSection({
             style={{ scale: imgScale }}
             className="relative w-full h-full"
           >
-            <Image
-              src="/image.png"
-              alt="Hero Content"
-              fill
-              className="object-cover"
-              priority
-            />
+        
             
             {/* Overlay content within the image frame */}
             <div className="absolute inset-0 bg-black/40 flex flex-col items-end justify-end p-8">

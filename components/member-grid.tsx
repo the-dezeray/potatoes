@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 export const MemberGrid = () => {
   const [visibleMembers, setVisibleMembers] = useState<Set<number>>(new Set());
-  const totalGridSlots = 24;
+  const totalGridSlots = 17;
   const uniqueImageCount = 8;
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export const MemberGrid = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-6 grid-rows-4 w-80 h-48 gap-2">
+      <div className="grid grid-cols-8 grid-rows-3 w-80 h-30 gap-1">
         {Array.from({ length: totalGridSlots }).map((_, index) => {
           const imageNumber = (index % uniqueImageCount) + 1;
           const isVisible = visibleMembers.has(index);
