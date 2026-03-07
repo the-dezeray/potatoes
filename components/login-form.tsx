@@ -95,23 +95,13 @@ export function LoginForm({
   }
 
   return (
-    <div className={cn("w-full max-w-lg font-pixel-circle", className)} {...props}>
+    <div className={cn("w-full max-w-md font-pixel-circle", className)} {...props}>
       {/* Peach card with yellow drop shadow — matches CTA banner style */}
       <div
         className="bg-[#f4c3b3] border-2 border-[#1c1c1c] rounded-2xl p-10 md:p-12"
         style={{ boxShadow: "8px 8px 0px 0px #fbd35a" }}
       >
         {/* Logo */}
-        <div className="mb-6 -ml-2">
-          <Image
-            src="/aw.png"
-            alt="Club Logo"
-            width={160}
-            height={64}
-            priority
-            className="object-contain origin-left"
-          />
-        </div>
 
         {/* Header */}
         <div className="mb-8">

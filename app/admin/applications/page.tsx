@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/table"
 import { db } from "@/lib/firebase"
 import { batchAudit } from "@/lib/audit"
+import { sendApprovalEmail, sendRejectionEmail } from "@/lib/actions/email"
 import type { UserRow } from "@/lib/firestore-types"
 import {
   collection,
@@ -100,6 +101,11 @@ export default function AdminApplicationsPage() {
         metadata: { applicantEmail: applicant.email },
       })
       await batch.commit()
+
+      // Notify user via email (Server Action)
+      if (applicant.email) {
+        await sendApprovalEmail(applicant.email, applicant.name || "Member")
+      }
     } finally {
       setBusyId(null)
     }
@@ -111,6 +117,8 @@ export default function AdminApplicationsPage() {
     try {
       const batch = writeBatch(db)
       batch.update(doc(db, "users", applicant.id), {
+        role: "rejected",
+        applicationSubmitted: false, // Prevents them from showing in pending lists
         applicationRejected: true,
         applicationRejectedAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -125,6 +133,11 @@ export default function AdminApplicationsPage() {
         metadata: { applicantEmail: applicant.email },
       })
       await batch.commit()
+
+      // Notify user via email (Server Action)
+      if (applicant.email) {
+        await sendRejectionEmail(applicant.email, applicant.name || "User")
+      }
     } finally {
       setBusyId(null)
     }

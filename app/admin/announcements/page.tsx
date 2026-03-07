@@ -33,7 +33,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { db } from "@/lib/firebase"
 import { batchAudit } from "@/lib/audit"
-import type { AnnouncementRow } from "@/lib/firestore-types"
+import type { AnnouncementRow, AnnouncementType } from "@/lib/firestore-types"
 import {
   collection,
   doc,
@@ -51,6 +51,9 @@ export default function AdminAnnouncementsPage() {
   const [editing, setEditing] = React.useState<AnnouncementRow | null>(null)
   const [title, setTitle] = React.useState("")
   const [body, setBody] = React.useState("")
+  const [annType, setAnnType] = React.useState<AnnouncementType>("general")
+  const [link, setLink] = React.useState("")
+  const [isUrgent, setIsUrgent] = React.useState(false)
   const [saving, setSaving] = React.useState(false)
 
   React.useEffect(() => {
@@ -65,6 +68,9 @@ export default function AdminAnnouncementsPage() {
           id: d.id,
           title: data.title ?? "(untitled)",
           body: data.body,
+          type: data.type,
+          link: data.link,
+          isUrgent: data.isUrgent ?? false,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
           createdBy: data.createdBy,
@@ -78,6 +84,9 @@ export default function AdminAnnouncementsPage() {
     setEditing(null)
     setTitle("")
     setBody("")
+    setAnnType("general")
+    setLink("")
+    setIsUrgent(false)
     setOpen(true)
   }
 
@@ -85,6 +94,9 @@ export default function AdminAnnouncementsPage() {
     setEditing(a)
     setTitle(a.title)
     setBody(a.body ?? "")
+    setAnnType(a.type ?? "general")
+    setLink(a.link ?? "")
+    setIsUrgent(a.isUrgent ?? false)
     setOpen(true)
   }
 
@@ -100,6 +112,9 @@ export default function AdminAnnouncementsPage() {
         batch.update(ref, {
           title,
           body,
+          type: annType,
+          link: link || null,
+          isUrgent,
           updatedAt: serverTimestamp(),
         })
         batchAudit(batch, {
@@ -115,6 +130,9 @@ export default function AdminAnnouncementsPage() {
         batch.set(ref, {
           title,
           body,
+          type: annType,
+          link: link || null,
+          isUrgent,
           createdBy: user.uid,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
@@ -184,10 +202,46 @@ export default function AdminAnnouncementsPage() {
                     />
                   </Field>
                   <Field>
+                    <FieldLabel htmlFor="ann-type">Type</FieldLabel>
+                    <select
+                      id="ann-type"
+                      value={annType}
+                      onChange={(e) => setAnnType(e.target.value as AnnouncementType)}
+                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+                    >
+                      <option value="general">General</option>
+                      <option value="meeting">Meeting</option>
+                      <option value="payment">Payment</option>
+                      <option value="warning">Warning</option>
+                      <option value="link">Link</option>
+                    </select>
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor="ann-link">Action Link (optional)</FieldLabel>
+                    <Input
+                      id="ann-link"
+                      type="url"
+                      placeholder="https://..."
+                      value={link}
+                      onChange={(e) => setLink(e.target.value)}
+                    />
+                  </Field>
+                  <Field>
+                    <label className="flex items-center gap-2 text-sm font-medium cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={isUrgent}
+                        onChange={(e) => setIsUrgent(e.target.checked)}
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                      Mark as Urgent
+                    </label>
+                  </Field>
+                  <Field>
                     <FieldLabel htmlFor="ann-body">Body</FieldLabel>
                     <Textarea
                       id="ann-body"
-                      rows={6}
+                      rows={5}
                       value={body}
                       onChange={(e) => setBody(e.target.value)}
                     />
@@ -213,6 +267,7 @@ export default function AdminAnnouncementsPage() {
           <TableHeader>
             <TableRow>
               <TableHead>Title</TableHead>
+              <TableHead>Type</TableHead>
               <TableHead>Published</TableHead>
               <TableHead>Last Updated</TableHead>
               <TableHead className="text-right">Actions</TableHead>
@@ -229,13 +284,17 @@ export default function AdminAnnouncementsPage() {
               announcements.map((a) => (
                 <TableRow key={a.id}>
                   <TableCell>
-                    <div className="font-medium">{a.title}</div>
+                    <div className="font-medium flex items-center gap-1.5">
+                      {a.isUrgent && <span className="text-red-500 text-xs font-bold uppercase">URGENT</span>}
+                      {a.title}
+                    </div>
                     {a.body && (
                       <div className="mt-1 line-clamp-1 text-xs text-muted-foreground">
                         {a.body}
                       </div>
                     )}
                   </TableCell>
+                  <TableCell className="text-sm capitalize text-muted-foreground">{a.type ?? "general"}</TableCell>
                   <TableCell className="text-sm text-muted-foreground">
                     {a.createdAt
                       ? new Date((a.createdAt as any).toDate()).toLocaleDateString()

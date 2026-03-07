@@ -11,6 +11,7 @@ import { CallToAction } from '@/components/call-to-action';
 import { PartnersSlider } from '@/components/partners-slider';
 import { PassionStats } from '@/components/passion-stats';
 import { ClosingSection } from '@/components/closing-section';
+import { OffersSection } from '@/components/offers-section';
 
 export default function Portfolio() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,17 +21,17 @@ export default function Portfolio() {
   const { scrollYProgress } = useScroll({ container: containerRef });
 
   // Multi-stop background color journey aligned with the Neo-Brutalist Retro theme:
-  // Hero (cream) → Partners/WhatWeDo (teal-tinted) → Projects (cream) → CTA (peach-tinted) → Closing (charcoal)
+  // Hero (cream) → Partners/WhatWeDo (teal-tinted) → Projects (cream) → CTA (peach-tinted)
   const backgroundColor = useTransform(
     scrollYProgress,
-    [0, 0.15, 0.35, 0.62, 0.80, 1],
-    ['#FAF6EF', '#EDF9F7', '#FAF6EF', '#FAF6EF', '#FDF0EC', '#363636']
+    [0, 0.15, 0.35, 0.62, 1],
+    ['#FAF6EF', '#EDF9F7', '#FAF6EF', '#FAF6EF', '#FDF0EC']
   );
 
   const textColor = useTransform(
     scrollYProgress,
-    [0, 0.80, 0.88, 1],
-    ['#1C1C1C', '#1C1C1C', '#ffffff', '#ffffff']
+    [0, 1],
+    ['#1C1C1C', '#1C1C1C']
   );
 
   return (
@@ -39,9 +40,7 @@ export default function Portfolio() {
       className="h-screen overflow-y-auto overflow-x-hidden selection:bg-[#8ecfc8] selection:text-[#1c1c1c]"
       style={{ backgroundColor, color: textColor }}
     >
-      <div className="min-h-screen flex flex-col">
-        <LandingHero />
-      </div>
+      <LandingHero scrollContainerRef={containerRef} />
 
       <PartnersSlider />
 
@@ -50,11 +49,10 @@ export default function Portfolio() {
         <Executives />
         <ProjectsSection />
         <PassionStats />
+        <div className="py-8 px-4 flex justify-center">
+          <OffersSection />
+        </div>
       </main>
-
-
-
-      <ClosingSection ref={lastSectionRef} />
 
       <Footer />
     </motion.div>

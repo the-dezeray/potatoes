@@ -13,7 +13,7 @@ import {
 
 import { auth, db } from "@/lib/firebase"
 
-export type UserRole = "pending" | "member" | "admin"
+export type UserRole = "pending" | "member" | "admin" | "rejected"
 
 export type UserDoc = {
   email?: string

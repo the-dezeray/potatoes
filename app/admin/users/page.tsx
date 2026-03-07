@@ -5,6 +5,7 @@ import * as React from "react"
 import { useAuth } from "@/components/AuthContext"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { MoreHorizontal, Shield, User, UserMinus, UserPlus, XCircle } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -39,12 +40,13 @@ import {
   writeBatch,
 } from "firebase/firestore"
 
-const ROLES: UserRole[] = ["pending", "member", "admin"]
+const ROLES: UserRole[] = ["pending", "member", "admin", "rejected"]
 
-const ROLE_VARIANT: Record<UserRole, "outline" | "default" | "secondary"> = {
+const ROLE_VARIANT: Record<UserRole, "outline" | "default" | "secondary" | "destructive"> = {
   pending: "outline",
   member: "secondary",
   admin: "default",
+  rejected: "destructive",
 }
 
 export default function AdminUsersPage() {
@@ -211,25 +213,84 @@ export default function AdminUsersPage() {
                           : "—"}
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className="inline-flex flex-wrap justify-end gap-1">
-                          {ROLES.filter((r) => r !== (u.role ?? "pending")).map((r) => (
+                        <div className="inline-flex justify-end gap-2">
+                          {/* Main Role Actions */}
+                          {u.role === "pending" && (
                             <Button
-                              key={r}
                               type="button"
                               size="sm"
-                              variant={r === "pending" ? "destructive" : "outline"}
+                              variant="default"
                               disabled={isBusy}
-                              onClick={() => changeRole(u, r)}
+                              onClick={() => changeRole(u, "member")}
+                              className="h-8"
                             >
-                              {r === "pending" ? "Remove" : `Set ${r}`}
+                              <UserPlus className="w-4 h-4 mr-1" />
+                              Approve
                             </Button>
-                          ))}
+                          )}
+
+                          {u.role === "member" && (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              disabled={isBusy}
+                              onClick={() => changeRole(u, "admin")}
+                              className="h-8"
+                            >
+                              <Shield className="w-4 h-4 mr-1" />
+                              Make Admin
+                            </Button>
+                          )}
+
+                          {u.role === "admin" && (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              disabled={isBusy}
+                              onClick={() => changeRole(u, "member")}
+                              className="h-8"
+                            >
+                              <User className="w-4 h-4 mr-1" />
+                              Demote
+                            </Button>
+                          )}
+
+                          {u.role !== "rejected" && (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="ghost"
+                              disabled={isBusy}
+                              onClick={() => changeRole(u, "rejected")}
+                              className="h-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            >
+                              <XCircle className="w-4 h-4 mr-1" />
+                              Reject
+                            </Button>
+                          )}
+
+                          {u.role === "rejected" && (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              disabled={isBusy}
+                              onClick={() => changeRole(u, "pending")}
+                              className="h-8"
+                            >
+                              Restore
+                            </Button>
+                          )}
+
                           <Button
                             type="button"
                             size="sm"
                             variant="secondary"
                             disabled={isBusy}
                             onClick={() => setAssignTarget(u)}
+                            className="h-8"
                           >
                             Projects
                           </Button>

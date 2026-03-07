@@ -28,6 +28,7 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/components/AuthContext"
 import { auth, db, googleProvider } from "@/lib/firebase"
+import { sendApplicationEmail } from "@/lib/actions/email"
 import { doc, serverTimestamp, setDoc } from "firebase/firestore"
 import {
   createUserWithEmailAndPassword,
@@ -143,6 +144,12 @@ export default function ApplyPage() {
       }
 
       await writeUserApplication(uid, email)
+      
+      // Notify applicant (Server Action)
+      if (email) {
+        await sendApplicationEmail(email, formData.fullName || "Applicant")
+      }
+
       setSubmitted(true)
     } catch (err: any) {
       console.error("Error submitting application:", err)

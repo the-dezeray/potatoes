@@ -5,11 +5,11 @@ import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const leaders = [
-  { role: 'President', name: 'Thabang Molefe', image: '/club-members/1.png', quote: 'Pioneering the next wave of tech in BW.' },
-  { role: 'Vice President', name: 'Sarah Jenkins', image: '/club-members/2.png' },
-  { role: 'HR Manager', name: 'Lame Botlhe', image: '/club-members/3.png' },
-  { role: 'Treasurer', name: 'Kago Setilo', image: '/club-members/4.png' },
-  { role: 'Secretary', name: 'Mpho Rama', image: '/club-members/5.png' },
+  { role: 'President', name: 'Phemelo Mokgosi', image: '/club-members/p.jpg', quote: 'Pioneering the next wave of tech in BW.' },
+  { role: 'Vice President', name: 'Desiree Chingwaru', image: '/club-members/2.png' },
+  { role: 'HR Manager', name: 'Lumbiel A', image: '/club-members/3.png' },
+  { role: 'Treasurer', name: 'Thandiswa okuntle', image: '/club-members/l.jpeg' },
+  { role: 'Secretary', name: 'Simoen Uden', image: '/club-members/s.jpeg' },
 ];
 
 export const Executives = () => (

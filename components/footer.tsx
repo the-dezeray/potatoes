@@ -21,7 +21,8 @@ export function Footer() {
   ];
 
   return (
-    <footer className="w-full py-12 px-6 md:px-24 mt-auto pt-50">
+    <footer className="w-full py-12 px-10  md:px-24 mt-auto pt-50 bg-[#363636] text-white rounded-2xl ">
+      
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -55,7 +56,7 @@ export function Footer() {
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/10 pt-12">
         <div className="flex flex-col gap-2">
-          <h3 className="text-2xl font-bold tracking-tighter">BIUST Innovation Club</h3>
+          <h3 className="text-2xl font-extrabold tracking-tighter font-pixel-triangle">BIUST Innovation Club</h3>
           <p className="text-sm text-muted-foreground">Building the future of tech in Botswana.</p>
         </div>
 
@@ -86,7 +87,7 @@ export function Footer() {
           ))}
         </div>
       </div>
-      <div className="mt-12 text-center text-xs text-muted-foreground">
+      <div className="mt-12 text-center text-xs text-muted-foreground font-pixel-triangle">
         © {currentYear} BIUST Innovation Club. All rights reserved.
       </div>
     </footer>

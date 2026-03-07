@@ -2,7 +2,7 @@ import type { Timestamp } from "firebase/firestore"
 
 // ─── Users ───────────────────────────────────────────────────────────────────
 
-export type UserRole = "pending" | "member" | "admin"
+export type UserRole = "pending" | "member" | "admin" | "rejected"
 
 export type UserDoc = {
   email?: string
@@ -65,9 +65,14 @@ export type ApplicationRow = ApplicationDoc & { id: string }
 
 // ─── Announcements ────────────────────────────────────────────────────────────
 
+export type AnnouncementType = "general" | "meeting" | "payment" | "warning" | "link"
+
 export type AnnouncementDoc = {
   title: string
   body?: string
+  type?: AnnouncementType
+  link?: string
+  isUrgent?: boolean
   createdAt?: Timestamp
   updatedAt?: Timestamp
   createdBy?: string | null

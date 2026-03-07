@@ -11,7 +11,12 @@ import {
   ArrowRight,
   ExternalLink,
   ChevronRight,
-  UserPlus
+  UserPlus,
+  CalendarDays,
+  CreditCard,
+  AlertTriangle,
+  Bell,
+  Info,
 } from "lucide-react"
 
 import { useAuth } from "@/components/AuthContext"
@@ -37,7 +42,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { db } from "@/lib/firebase"
-import type { ProjectRow, AnnouncementRow, ProjectStatus } from "@/lib/firestore-types"
+import type { ProjectRow, AnnouncementRow, ProjectStatus, AnnouncementType } from "@/lib/firestore-types"
 import {
   arrayUnion,
   collection,
@@ -55,6 +60,58 @@ const STATUS_VARIANT: Record<ProjectStatus, "default" | "secondary" | "outline">
   planned: "outline",
   active: "default",
   done: "secondary",
+}
+
+// ── Retro type config ────────────────────────────────────────────────────────
+const RETRO_TYPE: Record<
+  AnnouncementType,
+  { label: string; icon: React.ElementType; bg: string; border: string; shadow: string; tag: string; tagText: string }
+> = {
+  general: {
+    label: "GENERAL",
+    icon: Info,
+    bg: "#f5f5f0",
+    border: "#374151",
+    shadow: "#374151",
+    tag: "#374151",
+    tagText: "#f5f5f0",
+  },
+  meeting: {
+    label: "MEETING",
+    icon: CalendarDays,
+    bg: "#dbeafe",
+    border: "#1d4ed8",
+    shadow: "#1e3a8a",
+    tag: "#1d4ed8",
+    tagText: "#ffffff",
+  },
+  payment: {
+    label: "PAYMENT",
+    icon: CreditCard,
+    bg: "#dcfce7",
+    border: "#15803d",
+    shadow: "#14532d",
+    tag: "#15803d",
+    tagText: "#ffffff",
+  },
+  warning: {
+    label: "WARNING",
+    icon: AlertTriangle,
+    bg: "#fef9c3",
+    border: "#b45309",
+    shadow: "#78350f",
+    tag: "#b45309",
+    tagText: "#ffffff",
+  },
+  link: {
+    label: "RESOURCE",
+    icon: ExternalLink,
+    bg: "#ede9fe",
+    border: "#6d28d9",
+    shadow: "#4c1d95",
+    tag: "#6d28d9",
+    tagText: "#ffffff",
+  },
 }
 
 export default function PortalPage() {
@@ -108,6 +165,9 @@ export default function PortalPage() {
           id: d.id,
           title: data.title ?? "(untitled)",
           body: data.body,
+          type: data.type,
+          link: data.link,
+          isUrgent: data.isUrgent ?? false,
           createdAt: data.createdAt,
         }
       })
@@ -202,21 +262,125 @@ export default function PortalPage() {
           {announcements.length === 0 ? (
             <p className="text-sm text-muted-foreground">No announcements yet.</p>
           ) : (
-            announcements.map((a) => (
-              <div key={a.id} className="rounded-md border p-3">
-                <div className="text-sm font-medium">{a.title}</div>
-                {a.body && (
-                  <div className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                    {a.body}
+            announcements.map((a) => {
+              const type: AnnouncementType = (a as any).type ?? "general"
+              const isUrgent = (a as any).isUrgent ?? false
+              const link = (a as any).link as string | undefined
+              const cfg = RETRO_TYPE[type] ?? RETRO_TYPE.general
+              const Icon = cfg.icon
+              return (
+                <div
+                  key={a.id}
+                  style={{
+                    background: isUrgent ? "#fff1f2" : cfg.bg,
+                    border: `2px solid ${isUrgent ? "#e11d48" : cfg.border}`,
+                    boxShadow: `4px 4px 0px 0px ${isUrgent ? "#9f1239" : cfg.shadow}`,
+                    borderRadius: "6px",
+                    padding: "12px 14px",
+                  }}
+                  className="transition-transform hover:-translate-y-px"
+                >
+                  {/* Top row: badges + date */}
+                  <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {/* Type tag */}
+                      <span
+                        style={{
+                          background: isUrgent ? "#e11d48" : cfg.tag,
+                          color: isUrgent ? "#ffffff" : cfg.tagText,
+                          border: `1.5px solid ${isUrgent ? "#9f1239" : cfg.border}`,
+                          fontFamily: "var(--font-pixel-square, monospace)",
+                          fontSize: "9px",
+                          letterSpacing: "0.08em",
+                          padding: "2px 6px",
+                          borderRadius: "3px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                      >
+                        {isUrgent ? (
+                          <Bell style={{ width: 9, height: 9, strokeWidth: 2.5 }} />
+                        ) : (
+                          <Icon style={{ width: 9, height: 9, strokeWidth: 2.5 }} />
+                        )}
+                        {isUrgent ? "URGENT" : cfg.label}
+                      </span>
+                    </div>
+                    {a.createdAt && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-pixel-square, monospace)",
+                          fontSize: "9px",
+                          color: isUrgent ? "#be123c" : cfg.border,
+                          letterSpacing: "0.06em",
+                        }}
+                      >
+                        {new Date((a.createdAt as any).toDate()).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </span>
+                    )}
                   </div>
-                )}
-                {a.createdAt && (
-                  <div className="mt-1 text-xs text-muted-foreground">
-                    {new Date((a.createdAt as any).toDate()).toLocaleDateString()}
-                  </div>
-                )}
-              </div>
-            ))
+
+                  {/* Title */}
+                  <p
+                    style={{
+                      fontFamily: "var(--font-pixel-square, monospace)",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      color: isUrgent ? "#9f1239" : cfg.border,
+                      letterSpacing: "0.03em",
+                      lineHeight: 1.4,
+                      margin: 0,
+                    }}
+                  >
+                    {a.title}
+                  </p>
+
+                  {/* Body */}
+                  {a.body && (
+                    <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed"
+                      style={{ color: isUrgent ? "#e11d48" : cfg.shadow }}
+                    >
+                      {a.body}
+                    </p>
+                  )}
+
+                  {/* Link button */}
+                  {link && (
+                    <div className="mt-2">
+                      <Link
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          background: cfg.tag,
+                          color: cfg.tagText,
+                          border: `1.5px solid ${cfg.border}`,
+                          boxShadow: `2px 2px 0px 0px ${cfg.shadow}`,
+                          fontFamily: "var(--font-pixel-square, monospace)",
+                          fontSize: "9px",
+                          letterSpacing: "0.08em",
+                          padding: "3px 8px",
+                          borderRadius: "3px",
+                          textDecoration: "none",
+                        }}
+                        className="active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-transform"
+                      >
+                        <ExternalLink style={{ width: 9, height: 9, strokeWidth: 2.5 }} />
+                        OPEN
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )
+            })
           )}
         </CardContent>
       </Card>
