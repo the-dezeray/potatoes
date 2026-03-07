@@ -170,44 +170,90 @@ export default function ResourcesPage() {
       </div>
 
       {/* Quick Access Banner */}
-      <div className="rounded-xl border-2 border-[#1c1c1c] bg-[#fbd35a] p-5 shadow-[4px_4px_0px_0px_#1c1c1c] flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
-        <div>
-          <p className="font-bold text-[#1c1c1c] text-sm">Club Notion Workspace</p>
-          <p className="text-[#3a3a3a] text-xs mt-0.5">All club documents, plans, and notes in one place.</p>
+      <div className="relative rounded-2xl border-2 border-[#1c1c1c] bg-[#fbd35a] shadow-[5px_5px_0px_0px_#1c1c1c] overflow-hidden">
+        {/* decorative dot-grid */}
+        <div
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, #1c1c1c 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
+          }}
+        />
+
+        <div className="relative flex flex-col sm:flex-row sm:items-center gap-6 p-6 sm:p-8">
+          {/* Left: icon + copy */}
+          <div className="flex items-start gap-4 flex-1 min-w-0">
+            {/* Notion "N" badge */}
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-[#1c1c1c] border-2 border-[#1c1c1c] shadow-[2px_2px_0px_0px_rgba(0,0,0,0.25)] flex items-center justify-center">
+              <span className="text-[#fbd35a] font-black text-xl leading-none select-none">N</span>
+            </div>
+
+            <div className="min-w-0">
+              <p className="font-black text-[#1c1c1c] text-lg sm:text-xl leading-tight tracking-tight">
+                Club Notion Workspace
+              </p>
+              <p className="text-[#3a3a3a] text-sm mt-1 leading-snug">
+                All club documents, plans, and notes — in one place.
+              </p>
+
+              {/* stat pills */}
+              <div className="flex flex-wrap gap-2 mt-3">
+                {[
+                  { label: "4 sections", icon: BookOpen },
+                  { label: "Meeting notes", icon: CalendarDays },
+                  { label: "Live docs", icon: FileText },
+                ].map(({ label, icon: Icon }) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#1c1c1c]/10 border border-[#1c1c1c]/20 text-[#1c1c1c]"
+                  >
+                    <Icon className="w-3 h-3" strokeWidth={2} />
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right: CTA */}
+          <Link
+            href="https://notion.so/placeholder-workspace"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 text-sm font-black px-5 py-3 rounded-xl bg-[#1c1c1c] text-[#fbd35a] border-2 border-[#1c1c1c] shadow-[3px_3px_0px_0px_rgba(0,0,0,0.35)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.35)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all shrink-0"
+          >
+            Open Workspace
+            <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.5} />
+          </Link>
         </div>
-        <Link
-          href="https://notion.so/placeholder-workspace"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-lg bg-[#1c1c1c] text-white border border-[#1c1c1c] hover:bg-[#363636] transition-colors shrink-0"
-        >
-          <ExternalLink className="w-3.5 h-3.5" />
-          Open Notion
-        </Link>
       </div>
 
       {/* Resource Sections Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {RESOURCES.map((section) => {
+        {RESOURCES.map((section, idx) => {
           const SectionIcon = section.icon
           return (
             <div
               key={section.id}
-              className={`rounded-xl border-2 ${section.border} ${section.accent} p-5 flex flex-col gap-4`}
+              className="rounded-2xl border-2 border-[#1c1c1c] bg-white shadow-[4px_4px_0px_0px_#1c1c1c] overflow-hidden flex flex-col"
             >
-              {/* Section Header */}
-              <div className="flex items-start gap-3">
-                <div className={`p-2 rounded-lg border border-current/20 ${section.badge} shrink-0`}>
-                  <SectionIcon className="w-4 h-4" strokeWidth={1.75} />
+              {/* Card Header */}
+              <div className={`${section.accent} border-b-2 border-[#1c1c1c] px-5 py-4 flex items-center gap-3`}>
+                <div className={`shrink-0 p-2.5 rounded-xl border-2 border-[#1c1c1c] ${section.badge} shadow-[2px_2px_0px_0px_#1c1c1c]`}>
+                  <SectionIcon className="w-4 h-4" strokeWidth={2} />
                 </div>
-                <div>
-                  <h2 className="font-bold text-slate-900 text-sm">{section.title}</h2>
-                  <p className="text-xs text-slate-500 mt-0.5">{section.description}</p>
+                <div className="flex-1 min-w-0">
+                  <h2 className="font-black text-[#1c1c1c] text-sm tracking-tight leading-tight">{section.title}</h2>
+                  <p className="text-[11px] text-[#3a3a3a] mt-0.5 leading-snug">{section.description}</p>
                 </div>
+                <span className="text-3xl font-black text-[#1c1c1c]/10 select-none tabular-nums leading-none shrink-0">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
               </div>
 
               {/* Links */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5 p-3">
                 {section.links.map((link) => {
                   const LinkIcon = link.icon ?? ExternalLink
                   return (
@@ -216,16 +262,21 @@ export default function ResourcesPage() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 rounded-lg bg-white border border-slate-200 hover:border-slate-400 hover:shadow-sm transition-all group"
+                      className="group flex items-center gap-3 px-3 py-3 rounded-xl border-2 border-transparent hover:border-[#1c1c1c] hover:bg-slate-50 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_0px_#1c1c1c] transition-all"
                     >
-                      <LinkIcon className="w-4 h-4 text-slate-400 group-hover:text-slate-700 shrink-0 transition-colors" strokeWidth={1.75} />
+                      <div className={`shrink-0 w-8 h-8 rounded-lg border border-[#1c1c1c]/15 ${section.badge} flex items-center justify-center`}>
+                        <LinkIcon className="w-4 h-4" strokeWidth={1.75} />
+                      </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-slate-800 group-hover:text-slate-900">{link.label}</p>
+                        <p className="text-sm font-semibold text-slate-800 group-hover:text-slate-900 leading-tight">{link.label}</p>
                         {link.description && (
-                          <p className="text-xs text-slate-400 mt-0.5 truncate">{link.description}</p>
+                          <p className="text-xs text-slate-400 mt-0.5 truncate leading-snug">{link.description}</p>
                         )}
                       </div>
-                      <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-slate-500 shrink-0 transition-colors" strokeWidth={2} />
+                      <ExternalLink
+                        className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-600 shrink-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        strokeWidth={2}
+                      />
                     </Link>
                   )
                 })}

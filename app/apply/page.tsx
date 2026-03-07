@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { Facehash} from "facehash";
 import {
   User,
   Mail,
@@ -297,7 +298,8 @@ export default function ApplyPage() {
 
                   {isSignedIn && (
                     <div className="flex items-center gap-2 p-3 bg-[#FAF6EF] border border-[#1c1c1c] rounded-lg text-[#1c1c1c] text-xs font-medium">
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      <Facehash name={user.email|| "User"} size={12} />
+                      {/* <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> */}
                       <span>Signed in as {user?.email}. Complete the form below.</span>
                     </div>
                   )}
@@ -526,7 +528,7 @@ export default function ApplyPage() {
           {/* Footer */}
           <footer className="text-center text-white">
             <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <Image src="/aw.png" alt="Potato Club" width={80} height={26} className="brightness-0 invert opacity-80" />
+              <Image src="/aw.webp" alt="Potato Club" width={80} height={26} className="brightness-0 invert opacity-80" />
             </Link>
             <p className="text-gray-400 mb-8 max-w-xs mx-auto text-sm">
               A student-run club building projects, fostering community, and shipping real work.

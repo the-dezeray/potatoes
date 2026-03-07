@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link';
+import Image from 'next/image';
 import { Github, Twitter, Linkedin, Instagram, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -55,9 +56,12 @@ export function Footer() {
       </motion.div>
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/10 pt-12">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-2xl font-extrabold tracking-tighter font-pixel-triangle">BIUST Innovation Club</h3>
-          <p className="text-sm text-muted-foreground">Building the future of tech in Botswana.</p>
+        <div className="flex flex-col gap-1">
+          <Link href="/" className="inline-flex items-center justify-center mb-2">
+            <Image src="/aw.webp" alt="Potato Club" width={80} height={26} className="brightness-0 invert opacity-80" />
+          </Link>
+          <h3 className="text-2xl font-extrabold tracking-tighter font-pixel-triangle text-center">BIUST Innovation Club</h3>
+          <p className="text-sm text-muted-foreground text-center">Building the future of tech in Botswana.</p>
         </div>
 
         <nav className="flex flex-wrap justify-center gap-6">

@@ -59,7 +59,7 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
             <div
               className="absolute inset-0"
               style={{
-                backgroundImage: "url('/image10.png')",
+                backgroundImage: "url('/image10.webp')",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}

@@ -241,7 +241,7 @@ export default function ContactPage() {
         {/* Footer */}
         <footer className="text-center text-white">
           <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <Image src="/aw.png" alt="Potato Club" width={80} height={26} className="brightness-0 invert opacity-80" />
+            <Image src="/aw.webp" alt="Potato Club" width={80} height={26} className="brightness-0 invert opacity-80" />
           </Link>
           <p className="text-gray-400 mb-8 max-w-xs mx-auto text-sm">
             A student-run club building projects, fostering community, and shipping real work.

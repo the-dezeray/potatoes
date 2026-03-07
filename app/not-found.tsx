@@ -34,7 +34,7 @@ export default function NotFound() {
             <div className="mb-8 flex justify-center">
               <div className="relative w-32 h-10 overflow-hidden">
                 <Image
-                  src="/aw.png"
+                  src="/aw.webp"
                   alt="Club Logo"
                   width={128}
                   height={40}

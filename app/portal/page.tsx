@@ -17,6 +17,12 @@ import {
   AlertTriangle,
   Bell,
   Info,
+  Github,
+  Users,
+  Clock,
+  CheckCircle2,
+  Circle,
+  Zap,
 } from "lucide-react"
 
 import { useAuth } from "@/components/AuthContext"
@@ -42,6 +48,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { db } from "@/lib/firebase"
+import { Facehash } from "facehash"
 import type { ProjectRow, AnnouncementRow, ProjectStatus, AnnouncementType } from "@/lib/firestore-types"
 import {
   arrayUnion,
@@ -56,10 +63,34 @@ import {
   updateDoc,
 } from "firebase/firestore"
 
-const STATUS_VARIANT: Record<ProjectStatus, "default" | "secondary" | "outline"> = {
-  planned: "outline",
-  active: "default",
-  done: "secondary",
+const STATUS_STYLE: Record<
+  ProjectStatus,
+  { label: string; bg: string; border: string; text: string; stripe: string; icon: React.ElementType }
+> = {
+  planned: {
+    label: "Planned",
+    bg: "#f0f9ff",
+    border: "#0369a1",
+    text: "#0c4a6e",
+    stripe: "#0ea5e9",
+    icon: Circle,
+  },
+  active: {
+    label: "Active",
+    bg: "#f0fdf4",
+    border: "#15803d",
+    text: "#14532d",
+    stripe: "#22c55e",
+    icon: Zap,
+  },
+  done: {
+    label: "Done",
+    bg: "#f5f3ff",
+    border: "#6d28d9",
+    text: "#3b0764",
+    stripe: "#8b5cf6",
+    icon: CheckCircle2,
+  },
 }
 
 // ── Retro type config ────────────────────────────────────────────────────────
@@ -220,7 +251,8 @@ export default function PortalPage() {
         <CardHeader className="flex flex-row items-center justify-between gap-4 py-4">
           <div className="flex items-center gap-4">
             <div className="bg-white p-2.5 rounded-xl border shadow-sm">
-              <User className="w-5 h-5 text-primary" />
+             <Facehash name={user?.email || "User"} size={48} />
+          
             </div>
             <div>
               <CardTitle className="text-xl">Member Portal</CardTitle>
@@ -398,107 +430,133 @@ export default function PortalPage() {
         </TabsList>
 
         <TabsContent value="projects">
-          <Card className="mt-4">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <Terminal className="w-5 h-5 text-slate-400" />
+          <div className="mt-4 flex flex-col gap-4">
+            {/* Section header */}
+            <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Available Projects</CardTitle>
-                <CardDescription>Join a project to get involved.</CardDescription>
+                <h2 className="font-black text-[#1c1c1c] text-base tracking-tight">Available Projects</h2>
+                <p className="text-xs text-slate-500 mt-0.5">Join a project to get involved.</p>
               </div>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Owner</TableHead>
-                    <TableHead>Members</TableHead>
-                    <TableHead>Deadline</TableHead>
-                    <TableHead>GitHub</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {projects.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={7} className="text-muted-foreground">
-                        No projects yet.
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    projects.map((p) => {
-                      const isMember = !!user && p.members.includes(user.uid)
-                      const isOwner = !!user && p.ownerUid === user.uid
-                      return (
-                        <TableRow key={p.id}>
-                          <TableCell>
-                            <div className="font-medium">{p.name}</div>
-                            {p.description && (
-                              <div className="max-w-[14rem] truncate text-xs text-muted-foreground">
-                                {p.description}
-                              </div>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant={STATUS_VARIANT[p.status ?? "planned"]}>
-                              {p.status ?? "planned"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-sm">
-                            {isOwner ? (
-                              <Badge variant="secondary">You</Badge>
-                            ) : p.ownerUid ? (
-                              <span className="text-muted-foreground text-xs">
-                                {p.ownerUid.slice(0, 8)}…
-                              </span>
-                            ) : (
-                              <span className="text-muted-foreground">—</span>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-sm">{p.members.length}</TableCell>
-                          <TableCell className="text-sm text-muted-foreground">
-                            {p.deadline
-                              ? new Date((p.deadline as any).toDate()).toLocaleDateString()
-                              : "—"}
-                          </TableCell>
-                          <TableCell>
-                            {p.githubUrl ? (
-                              <a
-                                href={p.githubUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-sm underline underline-offset-2"
-                              >
-                                GitHub
-                              </a>
-                            ) : (
-                              <span className="text-muted-foreground text-sm">—</span>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant={isMember ? "secondary" : "default"}
-                              disabled={isMember || joiningId === p.id}
-                              onClick={() => joinProject(p.id)}
-                            >
-                              {isMember
-                                ? "Joined"
-                                : joiningId === p.id
-                                  ? "Joining…"
-                                  : "Join"}
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+              <span className="text-xs font-semibold text-slate-400 tabular-nums">
+                {projects.length} project{projects.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+
+            {projects.length === 0 ? (
+              <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 py-14 flex flex-col items-center gap-2">
+                <FolderKanban className="w-8 h-8 text-slate-300" strokeWidth={1.5} />
+                <p className="text-sm text-slate-400 font-medium">No projects yet.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {projects.map((p) => {
+                  const isMember = !!user && p.members.includes(user.uid)
+                  const isOwner = !!user && p.ownerUid === user.uid
+                  const status = p.status ?? "planned"
+                  const st = STATUS_STYLE[status]
+                  const StatusIcon = st.icon
+                  return (
+                    <div
+                      key={p.id}
+                      className="rounded-2xl border-2 border-[#1c1c1c] bg-white shadow-[4px_4px_0px_0px_#1c1c1c] overflow-hidden flex flex-col"
+                    >
+                      {/* Colored top stripe */}
+                      <div style={{ height: 4, background: st.stripe }} />
+
+                      {/* Body */}
+                      <div className="flex flex-col gap-3 p-4 flex-1">
+                        {/* Title row */}
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-black text-[#1c1c1c] text-sm leading-snug tracking-tight flex-1">
+                            {p.name}
+                          </h3>
+                          {/* Status pill */}
+                          <span
+                            style={{
+                              background: st.bg,
+                              border: `1.5px solid ${st.border}`,
+                              color: st.text,
+                            }}
+                            className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0"
+                          >
+                            <StatusIcon className="w-2.5 h-2.5" strokeWidth={2.5} />
+                            {st.label}
+                          </span>
+                        </div>
+
+                        {/* Description */}
+                        {p.description && (
+                          <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">
+                            {p.description}
+                          </p>
+                        )}
+
+                        {/* Meta pills */}
+                        <div className="flex flex-wrap gap-1.5">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600">
+                            <Users className="w-3 h-3" strokeWidth={2} />
+                            {p.members.length} member{p.members.length !== 1 ? "s" : ""}
+                          </span>
+                          {p.deadline && (
+                            <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600">
+                              <Clock className="w-3 h-3" strokeWidth={2} />
+                              {new Date((p.deadline as any).toDate()).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                            </span>
+                          )}
+                          {isOwner && (
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#fbd35a] border border-[#1c1c1c] text-[#1c1c1c]">
+                              Owner
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Footer */}
+                      <div className="border-t-2 border-[#1c1c1c] px-4 py-3 flex items-center justify-between gap-3 bg-slate-50">
+                        {p.githubUrl ? (
+                          <a
+                            href={p.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+                          >
+                            <Github className="w-3.5 h-3.5" strokeWidth={2} />
+                            GitHub
+                            <ExternalLink className="w-2.5 h-2.5 opacity-50" strokeWidth={2} />
+                          </a>
+                        ) : (
+                          <span className="text-xs text-slate-300 font-medium">No repo linked</span>
+                        )}
+                        <button
+                          type="button"
+                          disabled={isMember || joiningId === p.id}
+                          onClick={() => joinProject(p.id)}
+                          className="inline-flex items-center gap-1.5 text-xs font-black px-3.5 py-1.5 rounded-lg border-2 border-[#1c1c1c] transition-all
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                            enabled:bg-[#1c1c1c] enabled:text-white enabled:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)]
+                            enabled:hover:-translate-x-px enabled:hover:-translate-y-px enabled:hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.3)]
+                            enabled:active:translate-x-px enabled:active:translate-y-px enabled:active:shadow-none
+                            disabled:bg-slate-100 disabled:text-slate-400 disabled:border-slate-200"
+                        >
+                          {isMember ? (
+                            <><CheckCircle2 className="w-3.5 h-3.5" strokeWidth={2.5} /> Joined</>
+                          ) : joiningId === p.id ? (
+                            "Joining…"
+                          ) : (
+                            <><UserPlus className="w-3.5 h-3.5" strokeWidth={2.5} /> Join</>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </TabsContent>
 
         <TabsContent value="profile">

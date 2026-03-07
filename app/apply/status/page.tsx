@@ -66,7 +66,7 @@ export default function ApplicationStatusPage() {
             <div className="mb-4 -ml-4 flex justify-start">
               <div className="relative w-40 h-16 overflow-hidden flex items-center justify-start">
                 <Image 
-                  src="/aw.png" 
+                  src="/aw.webp" 
                   alt="Club Logo" 
                   width={200} 
                   height={80}
