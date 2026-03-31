@@ -14,7 +14,7 @@ export const PassionStats = () => (
     >
       <span className="text-xs font-bold uppercase tracking-widest text-[#6b6b6b]">Passion</span>
       <h2 className="text-3xl md:text-4xl font-medium mt-4 mb-8">
-        Design has always been more than just a job — it's my passion.
+        We love solving problems that make a real impact on our campus and beyond.
       </h2>
       <div className="relative rounded-3xl overflow-hidden aspect-video bg-gray-100 shadow-sm">
         <img src="/api/placeholder/800/450" alt="Video cover" className="object-cover w-full h-full" />
@@ -33,7 +33,7 @@ export const PassionStats = () => (
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <span className="text-5xl md:text-6xl font-medium font-pixel-grid">+320</span>
+        <span className="text-5xl md:text-6xl font-medium font-pixel-grid   ">+7</span>
         <p className="text-[#555555] mt-3 text-lg">Projects completed for global clients across various industries.</p>
       </motion.div>
       <motion.div
@@ -42,7 +42,7 @@ export const PassionStats = () => (
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <span className="text-5xl md:text-6xl font-medium">+280</span>
+        <span className="text-5xl md:text-6xl font-medium">+102</span>
         <p className="text-[#555555] mt-3 text-lg">Happy clients who have seen significant growth in their digital presence.</p>
       </motion.div>
     </div>

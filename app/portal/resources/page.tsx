@@ -59,7 +59,7 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "Membership Policy",
         description: "Joining requirements, roles and responsibilities.",
-        href: "https://notion.so/placeholder-membership",
+        href: "https://www.notion.so/the-drive-collection/Policies-30908e309fed808da765e37a9342ddea",
         icon: GraduationCap,
       },
     ],
@@ -76,13 +76,13 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "General Meeting Notes",
         description: "Archives of all general meeting minutes.",
-        href: "https://notion.so/placeholder-meetings",
+        href: "https://www.notion.so/the-drive-collection/Meetings-30908e309fed8076a30bdb4d49be0c34",
         icon: CalendarDays,
       },
       {
         label: "Executive Meeting Notes",
         description: "Notes from leadership team meetings.",
-        href: "https://notion.so/placeholder-exec-meetings",
+        href: "https://www.notion.so/the-drive-collection/Meetings-30908e309fed8076a30bdb4d49be0c341",
         icon: CalendarDays,
       },
       {
@@ -105,7 +105,7 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "Upcoming Hackathons",
         description: "Events we're planning to attend or host.",
-        href: "https://notion.so/placeholder-upcoming",
+        href: "https://devpost.com/",
         icon: CalendarDays,
       },
       {
@@ -117,7 +117,7 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "Team Formation Board",
         description: "Find teammates and list your skills.",
-        href: "https://notion.so/placeholder-team-formation",
+        href: "https://github.com/orgs/INNOVATION-CLUB-BIUST/people",
         icon: Globe,
       },
     ],
@@ -140,13 +140,13 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "Tech Stack Guides",
         description: "Opinionated guides for our common tools.",
-        href: "https://notion.so/placeholder-tech-guides",
+        href: "https://roadmap.sh/",
         icon: Code2,
       },
       {
         label: "External Resources Hub",
         description: "Links to courses, docs, and articles we recommend.",
-        href: "https://notion.so/placeholder-external",
+        href: "https://roadmap.sh/",
         icon: Globe,
       },
     ],

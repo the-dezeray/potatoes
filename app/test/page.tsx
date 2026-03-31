@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { InfiniteSlider } from '@/components/motion-primitives/infinite-slider';
 import { TextScramble } from '@/components/motion-primitives/text-scramble';
 import { Footer } from '@/components/footer';
-
+import Link from 'next/link';
 
 
 const Navbar = () => (
@@ -208,13 +208,24 @@ const Projects = () => {
       links: { github: "#", demo: "#" }
     },
     {
-      title: "Club Portal",
+      title: "Club Portals",
       category: "Internal Tool",
       image: "/other.png",
       tech: ["Next.js", "TypeScript", "Firestore"],
       problem: "Club management was fragmented across spreadsheets and chat groups, making it hard to track tasks.",
       links: { github: "#", demo: "#" }
     }
+    ,
+    
+        {
+      title: "Botsat 1",
+      category: "Internal Tool",
+      image: "/other.png",
+      tech: ["Next.js", "TypeScript", "Firestore"],
+      problem: "Club management was fragmented across spreadsheets and chat groups, making it hard to track tasks.",
+      links: { github: "#", demo: "#" }
+    }
+    ,
   ];
 
   return (
@@ -461,9 +472,11 @@ const Hero = () => (
               Join
               <ArrowUpRight size={14} strokeWidth={3} />
             </button>
+            <Link  href="/contact" >
             <button className="group flex items-center gap-2 border-2 border-black bg-white/50 backdrop-blur-sm px-4 py-2.5 rounded-xs text-sm font-bold hover:bg-black hover:text-white transition-all">
               Work with us
             </button>
+            </Link>
           </motion.div>
         </div>
 

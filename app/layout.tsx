@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelTriangle.variable} ${GeistPixelLine.variable} ${GeistPixelCircle.variable} ${GeistPixelSquare.variable} ${GeistPixelGrid.variable} antialiased`}
       >

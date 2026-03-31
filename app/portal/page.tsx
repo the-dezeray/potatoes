@@ -261,14 +261,27 @@ export default function PortalPage() {
               </CardDescription>
             </div>
           </div>
-          {role === "admin" && (
-            <Button asChild variant="outline" size="sm" className="hidden md:flex gap-2 bg-white border-primary/20 hover:bg-primary/5 text-primary">
-              <Link href="/admin">
-                <Terminal className="w-3.5 h-3.5" />
-                Go to Admin Panel
+          <div className="flex items-center gap-3">
+            <Button 
+              asChild 
+              variant="outline" 
+              size="sm" 
+              className="hidden md:flex gap-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 hover:from-orange-500 hover:via-pink-500 hover:to-purple-500 text-white border-none shadow-[0_0_15px_rgba(236,72,153,0.5)] hover:shadow-[0_0_25px_rgba(236,72,153,0.8)] transition-all duration-500 hover:scale-110 active:scale-95 animate-pulse hover:animate-none font-bold italic tracking-wider uppercase items-center"
+            >
+              <Link href="/leaderboard">
+                <Users className="w-4 h-4 animate-bounce" />
+                <span className="drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">Leaderboard</span>
               </Link>
             </Button>
-          )}
+            {role === "admin" && (
+              <Button asChild variant="outline" size="sm" className="hidden md:flex gap-2 bg-white border-primary/20 hover:bg-primary/5 text-primary">
+                <Link href="/admin">
+                  <Terminal className="w-3.5 h-3.5" />
+                  Go to Admin Panel
+                </Link>
+              </Button>
+            )}
+          </div>
         </CardHeader>
       </Card>
 

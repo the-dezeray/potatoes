@@ -1,34 +1,55 @@
 'use client';
 
 import React from 'react';
-import { ArrowUpRight, Github } from 'lucide-react';
+import { ArrowUpRight, Github, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const projects = [
   {
-    title: 'Smart Campus Hub',
-    category: 'Full-stack Platform',
-    image: '/image.png',
+    title: 'Smart Study',
+    category: 'Full-Stack Platform',
+    image: '/study.png',
     tech: ['Next.js', 'Firebase', 'Tailwind'],
-    problem: 'Students struggled to find real-time campus event updates and resource bookings in one place.',
-    links: { github: '#', demo: '#' },
+    problem:
+      'Many students struggle to effectively plan and manage their study schedules. Smart Study helps students organize their study sessions, track progress, and maintain consistent learning habits.',
+    links: { github: '#', demo: 'https://smartstudy-26356.web.app/' },
   },
   {
-    title: 'EcoTrack',
+    title: 'BIUST Insight',
     category: 'Mobile App',
-    image: '/image11.png',
+    image: '/insight.png',
     tech: ['React Native', 'Node.js', 'PostgreSQL'],
-    problem: 'Inconsistent waste collection tracking led to overflowing bins and health hazards in local wards.',
+    problem:
+      'The current BIUST library management system does not include access to past tests and laboratory materials. BIUST Insight provides a centralized repository where students can easily access, share, and contribute academic resources in one place.',
     links: { github: '#', demo: '#' },
   },
   {
-    title: 'Club Portal',
+    title: 'Club Portals',
     category: 'Internal Tool',
-    image: '/other.png',
+    image: '/club.png',
     tech: ['Next.js', 'TypeScript', 'Firestore'],
-    problem: 'Club management was fragmented across spreadsheets and chat groups, making it hard to track tasks.',
+    problem:
+      'Many student clubs manage operations across scattered spreadsheets and chat groups, making it difficult to track tasks, meetings, deadlines, and resources. Club Portals centralizes these operations into a single platform tailored for each club.',
     links: { github: '#', demo: '#' },
   },
+  {
+    title: 'Botsat-1 Tracker',
+    category: 'Public Tool',
+    image: '/bot.jpg',
+    tech: ['Next.js', 'TypeScript', 'Firestore'],
+    problem:
+      'There was no accessible public interface for tracking the launch and status of Botsat-1. This tool provides a simple platform for the public to follow mission updates and satellite information.',
+    links: { github: 'https://github.com/the-dezeray/mophi', demo: 'https://the-dezeray.github.io/mophi/' },
+  },
+  {
+    title: "Pioneering Ventures Society",
+    category: "Club Website",
+    image: "/pvs.png",
+    tech: ["Next.js", "Tailwind CSS", "Vercel"],
+    problem: "The Pioneering Ventures Society needed a modern, engaging website to showcase their mission, projects, and events. The new site provides a dynamic platform for the club to connect with members and the broader community.",
+    links: { github: "#", demo: "https://pioneer-ventures-society.org/" }
+  }
 ];
 
 export const ProjectsSection = () => (
@@ -94,5 +115,23 @@ export const ProjectsSection = () => (
         </motion.div>
       ))}
     </div>
+
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.3 }}
+      className="mt-32 flex justify-center"
+    >
+      <Link
+        href="/demo"
+        className="group relative px-10 py-5 bg-black text-white rounded-full flex items-center gap-4 transition-all hover:pr-12"
+      >
+        <span className="text-sm font-bold uppercase tracking-[0.2em]">View All Projects</span>
+        <div className="absolute right-5 group-hover:right-7 transition-all">
+          <Plus size={20} />
+        </div>
+      </Link>
+    </motion.div>
   </section>
 );

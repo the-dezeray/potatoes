@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { TextScramble } from '@/components/motion-primitives/text-scramble';
 import { MemberGrid } from '@/components/member-grid';
 import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 interface LandingHeroProps {
   scrollContainerRef?: React.RefObject<HTMLDivElement | null>;
 }
@@ -96,7 +97,7 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
                   </h1>
 
                   {/* Member Grid */}
-                  <div className="mt-30">
+                  <div className="mt-40">
                     <MemberGrid />
                   </div>
                 </div>
@@ -112,6 +113,8 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
                         Est. Botswana
                       </span>
                     </div>
+
+                    
 
                     {/* Main card body */}
                     <div className="border-2 border-white/40 bg-black/60 px-5 py-5 shadow-[4px_4px_0_#fbd35a]">
@@ -136,12 +139,17 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
 
                   {/* Buttons — stacked right-aligned */}
                   <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-start lg:items-end gap-3">
+               <Link href ="/apply">
                     <button className="group flex items-center gap-2 bg-[#fbd35a] text-[#1c1c1c] border-2 border-[#1c1c1c] px-6 py-3 text-sm font-bold hover:bg-[#F2C744] transition-all shadow-[3px_3px_0_#fbd35a] hover:shadow-[5px_5px_0_#fbd35a] hover:-translate-x-0.5 hover:-translate-y-0.5">
                       Join <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
+                    </Link>
+                    <Link href="/contact">
                     <button className="group border-2 border-white bg-transparent text-white px-6 py-3 text-sm font-bold hover:bg-white hover:text-[#1c1c1c] transition-all shadow-[3px_3px_0_rgba(255,255,255,0.4)] hover:shadow-[5px_5px_0_rgba(255,255,255,0.4)] hover:-translate-x-0.5 hover:-translate-y-0.5">
                       Work with us
+
                     </button>
+                    </Link>
                   </div>
 
                 </div>
@@ -153,14 +161,12 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
         {/* Scroll Indicator — fades out with the header */}
         <motion.div
           style={{ opacity: headerOpacity }}
-          className="absolute bottom-12 right-6 md:right-24 z-30 flex flex-col items-center gap-1"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"
         >
-       
-          <span className="text-[10px] text-white uppercase tracking-[0.5em] [writing-mode:vertical-lr]">Scroll</span>
-       
-       <ChevronDown size={50} className="text-white opacity-70" />
+          <span className="text-[10px] text-white/20 uppercase tracking-[0.5em]">Scroll</span>
+          <ChevronDown size={50} className="text-white opacity-70 animate-bounce" />
         </motion.div>
       </div>
-    </section>
+    </section>   
   );
 };

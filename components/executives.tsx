@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const leaders = [
   { role: 'President', name: 'Phemelo Mokgosi', image: '/club-members/p.webp', quote: 'Pioneering the next wave of tech in BW.' },
-  { role: 'Vice President', name: 'Desiree Chingwaru', image: '/club-members/2.webp' },
+  { role: 'Vice President', name: 'Desiree Chingwaru', image: '/club-members/desiree.webp' },
   { role: 'HR Manager', name: 'Lumbiel A', image: '/club-members/lum.webp' },
   { role: 'Treasurer', name: 'Simeon Uden', image: '/club-members/oga.webp' },
   { role: 'Secretary', name: 'Thandiswa ', image: '/club-members/s.webp' },
@@ -55,7 +55,7 @@ export const Executives = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="col-span-2 group relative overflow-hidden rounded-[1.2rem] bg-gray-100 aspect-[16/9] md:aspect-auto"
+className="col-span-2 group relative overflow-hidden rounded-[1.2rem] bg-gray-100 h-[220px] md:h-[240px]"
         >
           <img src={leaders[1].image} alt={leaders[1].name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
