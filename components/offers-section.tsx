@@ -33,7 +33,7 @@ export function OffersSection() {
 
           <div className="bg-white rounded-xl p-2 border-2 border-[#1c1c1c] shadow-[2px_2px_0_#1c1c1c] group cursor-pointer hover:-translate-y-1 transition-transform">
             <div className="aspect-square bg-[#EDF9F7] rounded-lg mb-2 flex items-center justify-center border-2 border-[#1c1c1c]">
-              <Image src="/merch/jacket.png" alt="Dev Hoodie" className="w-full h-full object-cover" width={200} height={200} />
+              <Image src="/merch/jacket.webp" alt="Dev Hoodie" className="w-full h-full object-cover" width={200} height={200} />
             </div>
             <h4 className="font-bold text-sm">Dev Hoodie</h4>
             <p className="text-[10px] font-medium text-neutral-600 mb-2">Premium Fleece, Navy</p>

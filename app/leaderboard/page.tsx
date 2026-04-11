@@ -71,6 +71,11 @@ export default function LeaderboardPage() {
   const [loading, setLoading] = React.useState(true)
   const [mounted, setMounted] = React.useState(false)
 
+  const [joinUsername, setJoinUsername] = React.useState("")
+  const [joinName, setJoinName] = React.useState("")
+  const [joinStatus, setJoinStatus] = React.useState<{ ok: boolean; msg: string } | null>(null)
+  const [joining, setJoining] = React.useState(false)
+
   React.useEffect(() => {
     setMounted(true)
     fetch("/api/leaderboard")
@@ -82,6 +87,31 @@ export default function LeaderboardPage() {
       .catch(() => setError("Failed to load leaderboard data."))
       .finally(() => setLoading(false))
   }, [])
+
+  async function handleJoin(e: React.FormEvent) {
+    e.preventDefault()
+    setJoining(true)
+    setJoinStatus(null)
+    try {
+      const res = await fetch("/api/leaderboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: joinUsername.trim(), name: joinName.trim() }),
+      })
+      const json = await res.json()
+      if (res.ok) {
+        setJoinStatus({ ok: true, msg: "You're on the board! You'll appear within the hour." })
+        setJoinUsername("")
+        setJoinName("")
+      } else {
+        setJoinStatus({ ok: false, msg: json.error ?? "Something went wrong." })
+      }
+    } catch {
+      setJoinStatus({ ok: false, msg: "Network error. Please try again." })
+    } finally {
+      setJoining(false)
+    }
+  }
 
   return (
     <>
@@ -174,18 +204,55 @@ export default function LeaderboardPage() {
                 >
                   <Trophy className="w-5 h-5 text-[#1c1c1c]" strokeWidth={2} />
                 </span>
-               BIC Commit Leaderboard
+                BIUST GitHub Leaderboard
               </h1>
               <p className="text-sm text-slate-500 mt-1">
                 {data
                   ? `Top contributors · ${formatDate(data.window.from)} – ${formatDate(data.window.to)}`
                   : "Top contributors this month"}
+                <span className="mx-2 text-slate-300">·</span>
+                <span className="text-slate-400">by the BIUST Innovation Club</span>
               </p>
             </div>
 
             {data && (
               <p className="text-xs text-slate-400 shrink-0 fade-up" style={{ animationDelay: "100ms" }}>
                 Updated {formatDate(data.generatedAt)}
+              </p>
+            )}
+          </div>
+
+          {/* ── Join Form ───────────────────────────────────────────────────── */}
+          <div className="mb-6 rounded-xl border-2 border-[#1c1c1c] bg-white/90 shadow-[4px_4px_0px_0px_#1c1c1c] p-5">
+            <h2 className="text-sm font-bold text-slate-900 mb-3">Add yourself to the leaderboard</h2>
+            <form onSubmit={handleJoin} className="flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                placeholder="GitHub username"
+                value={joinUsername}
+                onChange={(e) => setJoinUsername(e.target.value)}
+                required
+                className="flex-1 rounded-lg border-2 border-[#1c1c1c] px-3 py-2 text-sm outline-none focus:border-[#fbd35a] transition-colors"
+              />
+              <input
+                type="text"
+                placeholder="Display name"
+                value={joinName}
+                onChange={(e) => setJoinName(e.target.value)}
+                required
+                className="flex-1 rounded-lg border-2 border-[#1c1c1c] px-3 py-2 text-sm outline-none focus:border-[#fbd35a] transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={joining}
+                className="shrink-0 rounded-lg border-2 border-[#1c1c1c] bg-[#fbd35a] px-5 py-2 text-sm font-bold shadow-[2px_2px_0px_0px_#1c1c1c] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {joining ? "Adding…" : "Add me"}
+              </button>
+            </form>
+            {joinStatus && (
+              <p className={`mt-2 text-xs font-medium ${joinStatus.ok ? "text-green-700" : "text-red-600"}`}>
+                {joinStatus.msg}
               </p>
             )}
           </div>
@@ -256,7 +323,7 @@ export default function LeaderboardPage() {
           {/* ── Legend ──────────────────────────────────────────────────────── */}
           {data && data.results.length > 0 && (
             <p className="mt-4 text-xs text-slate-500 text-center">
-              Contributions tracked via the GitHub GraphQL API · refreshed weekly
+              Contributions tracked via the GitHub GraphQL API · refreshed hourly
             </p>
           )}
         </div>

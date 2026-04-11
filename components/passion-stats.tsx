@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Play } from 'lucide-react';
+import { Play, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export const PassionStats = () => (
   <section className="px-6 md:px-10 max-w-7xl mx-auto py-24 grid md:grid-cols-2 gap-16 md:gap-24 items-center">
@@ -44,6 +45,19 @@ export const PassionStats = () => (
       >
         <span className="text-5xl md:text-6xl font-medium">+102</span>
         <p className="text-[#555555] mt-3 text-lg">Happy clients who have seen significant growth in their digital presence.</p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+      >
+        <Link href="/leaderboard">
+          <button className="group flex items-center gap-2 border-2 border-[#1c1c1c] bg-transparent text-[#1c1c1c] px-6 py-3 text-sm font-bold hover:bg-[#fbd35a] transition-all shadow-[3px_3px_0_#1c1c1c] hover:shadow-[5px_5px_0_#1c1c1c] hover:-translate-x-0.5 hover:-translate-y-0.5">
+            View Leaderboard <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </button>
+        </Link>
       </motion.div>
     </div>
   </section>

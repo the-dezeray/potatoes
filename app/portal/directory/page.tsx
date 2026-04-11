@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Users, Search, Github, Mail } from "lucide-react"
+import { Users, Search, Github, Mail, Phone } from "lucide-react"
 import { db } from "@/lib/firebase"
 import type { UserRow } from "@/lib/firestore-types"
 import { collection, onSnapshot, query, where } from "firebase/firestore"
@@ -215,6 +215,15 @@ function MemberCard({ member }: { member: UserRow }) {
               title={member.email}
             >
               <Mail className="w-3.5 h-3.5" strokeWidth={1.75} />
+            </a>
+          )}
+          {member.phoneNumber && (
+            <a
+              href={`tel:${member.phoneNumber}`}
+              className="text-slate-400 hover:text-slate-700 transition-colors"
+              title={member.phoneNumber}
+            >
+              <Phone className="w-3.5 h-3.5" strokeWidth={1.75} />
             </a>
           )}
         </div>

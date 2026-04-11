@@ -20,11 +20,11 @@ export const PartnersSlider = () => (
     </div>
     <InfiniteSlider gap={48} speed={80} reverse className="py-8">
       <img src="/nvidia.png" alt="NVIDIA logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
-      <img src="/fortinet.png" alt="Fortinet logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
-      <img src="/github.png" alt="GitHub logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
+      <img src="/fortinet.webp" alt="Fortinet logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
+      <img src="/github.webp" alt="GitHub logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
       <img src="/spectrum.png" alt="Spectrum logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
       <img src="/debswana.png" alt="Debswana logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
-      <img src="/bip.png" alt="BIP logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
+      <img src="/bip.webp" alt="BIP logo" className="h-[80px] w-auto opacity-60 hover:opacity-100 transition-opacity" />
     </InfiniteSlider>
   </motion.section>
 );

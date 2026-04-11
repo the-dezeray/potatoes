@@ -32,7 +32,7 @@ export default function PortalLayout({
             <div className="flex items-center gap-3">
               <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <Image
-                  src="/biust-logo.png"
+                  src="/biust-logo.webp"
                   alt="BIUST Logo"
                   width={28}
                   height={28}

@@ -101,10 +101,11 @@ export default function AdminApplicationsPage() {
         metadata: { applicantEmail: applicant.email },
       })
       await batch.commit()
+      setApps((prev) => prev.filter((a) => a.id !== applicant.id))
 
-      // Notify user via email (Server Action)
+      // Notify user via email (non-blocking)
       if (applicant.email) {
-        await sendApprovalEmail(applicant.email, applicant.name || "Member")
+        sendApprovalEmail(applicant.email, applicant.name || "Member")
       }
     } finally {
       setBusyId(null)
@@ -133,10 +134,11 @@ export default function AdminApplicationsPage() {
         metadata: { applicantEmail: applicant.email },
       })
       await batch.commit()
+      setApps((prev) => prev.filter((a) => a.id !== applicant.id))
 
-      // Notify user via email (Server Action)
+      // Notify user via email (non-blocking)
       if (applicant.email) {
-        await sendRejectionEmail(applicant.email, applicant.name || "User")
+        sendRejectionEmail(applicant.email, applicant.name || "User")
       }
     } finally {
       setBusyId(null)

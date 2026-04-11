@@ -2,7 +2,7 @@ import { LoginForm } from "@/components/login-form"
 
 export default function Page() {
   return (
-    <div className="relative flex min-h-screen w-full items-start justify-center p-6 md:p-10 pt-20 md:pt-32 bg-[#363636]">
+    <div className="relative flex min-h-screen w-full items-center justify-center p-6 bg-[#363636]">
       {/* Subtle decorative lines matching CTA banner style */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none opacity-10"

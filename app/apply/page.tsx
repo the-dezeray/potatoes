@@ -39,7 +39,7 @@ import { TextEffect } from "@/components/motion-primitives/text-effect"
 import { TextLoop } from "@/components/motion-primitives/text-loop"
 
 export default function ApplyPage() {
-  const { user, userDoc } = useAuth()
+  const { user, userDoc, signOut } = useAuth()
   const [submitting, setSubmitting] = React.useState(false)
   const [submitted, setSubmitted] = React.useState(false)
   const [activeStep, setActiveStep] = React.useState("Basics")
@@ -197,6 +197,12 @@ export default function ApplyPage() {
           <Link href="/apply/status" className="inline-flex items-center gap-2 text-xs font-semibold text-[#1c1c1c] hover:gap-3 transition-all">
             View Status <ArrowRight className="w-3.5 h-3.5" />
           </Link>
+          <button
+            onClick={async () => { await signOut(); setSubmitted(false) }}
+            className="w-full mt-2 py-2.5 px-4 rounded-lg border-2 border-[#1c1c1c] bg-[#FAF6EF] text-[#1c1c1c] text-xs font-semibold hover:bg-[#fbd35a] transition-colors"
+          >
+            Make another application
+          </button>
         </div>
       </div>
     )
@@ -206,23 +212,23 @@ export default function ApplyPage() {
     <div className="min-h-screen font-sans text-[#2d2d2d] selection:bg-[#8ecfc8] selection:text-[#1c1c1c]">
 
       {/* ── TOP: CREAM SECTION ── */}
-      <div className="bg-[#FAF6EF] min-h-screen px-6 pt-24 pb-16 md:px-16 lg:px-24 flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto w-full">
+      <div className="bg-[#FAF6EF] min-h-screen px-6 pt-16 pb-10 md:px-12 lg:px-20 flex flex-col justify-center">
+        <div className="max-w-5xl mx-auto w-full">
 
           {/* Hero Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 pb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pb-10">
 
             {/* Left: Info */}
             <div>
               <TextEffect
                 per="char"
                 preset="fade-in-blur"
-                className="font-pixel-circle text-5xl md:text-6xl font-bold mb-4 text-[#1c1c1c] leading-tight block"
+                className="font-pixel-circle text-4xl md:text-5xl font-bold mb-3 text-[#1c1c1c] leading-tight block"
               >
                 Apply Now
               </TextEffect>
 
-              <div className="flex items-center gap-2 text-sm text-[#6b6b6b] mb-10">
+              <div className="flex items-center gap-2 text-sm text-[#6b6b6b] mb-7">
                 <span>We're looking for</span>
                 <TextLoop className="text-[#1c1c1c] font-semibold underline underline-offset-2 decoration-black/30">
                   <span>Developers</span>
@@ -231,8 +237,8 @@ export default function ApplyPage() {
                 </TextLoop>
               </div>
 
-              <div className="mb-10">
-                <h3 className="font-pixel-circle text-xl font-bold mb-4 text-[#1c1c1c]">Why join Potato Club?</h3>
+              <div className="mb-7">
+                <h3 className="font-pixel-circle text-lg font-bold mb-3 text-[#1c1c1c]">Why join Potato Club?</h3>
                 <ol className="text-[#555] space-y-3 list-decimal list-inside text-sm">
                   <li>Collaborate on real projects with passionate people</li>
                   <li>Build a portfolio while contributing to the community</li>
@@ -241,8 +247,8 @@ export default function ApplyPage() {
               </div>
 
               <div>
-                <h3 className="font-pixel-circle text-xl font-bold mb-5 text-[#1c1c1c]">What we value</h3>
-                <div className="space-y-4">
+                <h3 className="font-pixel-circle text-lg font-bold mb-3 text-[#1c1c1c]">What we value</h3>
+                <div className="space-y-3">
                   {[
                     { icon: Shield,   label: "Authenticity — genuine work and identity" },
                     { icon: Zap,      label: "Innovation — fresh, creative perspectives" },
@@ -262,13 +268,13 @@ export default function ApplyPage() {
 
             {/* Right: Form Card */}
             <div>
-              <div className="bg-[#8ecfc8] border-2 border-[#1c1c1c] rounded-xl p-8 shadow-[8px_8px_0px_0px_#1c1c1c]">
-                <header className="mb-6">
-                  <h2 className="font-pixel-circle text-2xl font-bold text-[#1c1c1c]">Join the team</h2>
-                  <p className="text-sm text-[#555] mt-1">Fill in the details below to apply.</p>
+              <div className="bg-[#8ecfc8] border-2 border-[#1c1c1c] rounded-xl p-6 shadow-[6px_6px_0px_0px_#1c1c1c]">
+                <header className="mb-4">
+                  <h2 className="font-pixel-circle text-xl font-bold text-[#1c1c1c]">Join the team</h2>
+                  <p className="text-xs text-[#555] mt-1">Fill in the details below to apply.</p>
                 </header>
 
-                <form onSubmit={onSubmit} className="space-y-5">
+                <form onSubmit={onSubmit} className="space-y-4">
                   {error && (
                     <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-xs font-medium">
                       <AlertCircle className="w-3.5 h-3.5 shrink-0" />
@@ -307,7 +313,7 @@ export default function ApplyPage() {
                   {/* Name & Email */}
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="fullName" className="text-sm font-bold text-[#1c1c1c]">
+                      <label htmlFor="fullName" className="text-xs font-bold text-[#1c1c1c]">
                         Full Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -318,11 +324,11 @@ export default function ApplyPage() {
                         onFocus={() => setActiveStep("Account")}
                         onChange={handleChange}
                         required
-                        className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
+                        className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="email" className="text-sm font-bold text-[#1c1c1c]">
+                      <label htmlFor="email" className="text-xs font-bold text-[#1c1c1c]">
                         Email <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -342,7 +348,7 @@ export default function ApplyPage() {
                   {/* Password */}
                   {!isSignedIn && (
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="password" className="text-sm font-bold text-[#1c1c1c]">
+                      <label htmlFor="password" className="text-xs font-bold text-[#1c1c1c]">
                         Password <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -354,7 +360,7 @@ export default function ApplyPage() {
                         onChange={handleChange}
                         required={!isSignedIn}
                         minLength={6}
-                        className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
+                        className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
                       />
                       <p className="text-[10px] text-[#555]">Minimum 6 characters. This creates your account.</p>
                     </div>
@@ -363,7 +369,7 @@ export default function ApplyPage() {
                   {/* Phone & GitHub */}
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="phoneNumber" className="text-sm font-bold text-[#1c1c1c]">
+                      <label htmlFor="phoneNumber" className="text-xs font-bold text-[#1c1c1c]">
                         Phone <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -374,11 +380,11 @@ export default function ApplyPage() {
                         onFocus={() => setActiveStep("Details")}
                         onChange={handleChange}
                         required
-                        className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
+                        className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="githubUsername" className="text-sm font-bold text-[#1c1c1c]">
+                      <label htmlFor="githubUsername" className="text-xs font-bold text-[#1c1c1c]">
                         GitHub <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -389,7 +395,7 @@ export default function ApplyPage() {
                         onFocus={() => setActiveStep("Details")}
                         onChange={handleChange}
                         required
-                        className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
+                        className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
                       />
                     </div>
                   </div>
@@ -397,7 +403,7 @@ export default function ApplyPage() {
                   {/* Level & Course */}
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="level" className="text-sm font-bold text-[#1c1c1c]">
+                      <label htmlFor="level" className="text-xs font-bold text-[#1c1c1c]">
                         Level <span className="text-red-500">*</span>
                       </label>
                       <select
@@ -406,7 +412,7 @@ export default function ApplyPage() {
                         onFocus={() => setActiveStep("Details")}
                         onChange={handleChange}
                         required
-                        className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all appearance-none"
+                        className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all appearance-none"
                       >
                         <option value="">Select Level</option>
                         <option value="100">100</option>
@@ -419,7 +425,7 @@ export default function ApplyPage() {
                       </select>
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="course" className="text-sm font-bold text-[#1c1c1c]">
+                      <label htmlFor="course" className="text-xs font-bold text-[#1c1c1c]">
                         Course <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -430,14 +436,14 @@ export default function ApplyPage() {
                         onFocus={() => setActiveStep("Details")}
                         onChange={handleChange}
                         required
-                        className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
+                        className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Statement */}
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="why" className="text-sm font-bold text-[#1c1c1c]">
+                    <label htmlFor="why" className="text-xs font-bold text-[#1c1c1c]">
                       Statement <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -447,14 +453,14 @@ export default function ApplyPage() {
                       onFocus={() => setActiveStep("Final")}
                       onChange={handleChange}
                       required
-                      rows={4}
-                      className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all resize-none"
+                      rows={3}
+                      className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all resize-none"
                     />
                   </div>
 
                   {/* Expertise */}
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="skills" className="text-sm font-bold text-[#1c1c1c]">
+                    <label htmlFor="skills" className="text-xs font-bold text-[#1c1c1c]">
                       Expertise
                     </label>
                     <input
@@ -463,7 +469,7 @@ export default function ApplyPage() {
                       value={formData.skills}
                       onFocus={() => setActiveStep("Skills")}
                       onChange={handleChange}
-                      className="p-3 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-sm focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
+                      className="p-2.5 rounded-lg border border-[#1c1c1c] bg-[#FAF6EF] text-xs focus:outline-none focus:ring-2 focus:ring-[#fbd35a] transition-all"
                     />
                   </div>
 
@@ -500,13 +506,13 @@ export default function ApplyPage() {
       </div>
 
       {/* ── BOTTOM: DARK SECTION ── */}
-      <div className="bg-[#363636] px-6 py-20 md:px-16 lg:px-24">
-        <div className="max-w-6xl mx-auto">
+      <div className="bg-[#363636] px-6 py-12 md:px-12 lg:px-20">
+        <div className="max-w-5xl mx-auto">
 
           {/* CTA Banner */}
-          <div className="max-w-5xl mx-auto relative mb-32">
-            <div className="bg-[#f4c3b3] border-2 border-[#1c1c1c] rounded-2xl p-12 md:p-20 text-center relative z-10 shadow-[8px_8px_0px_0px_#fbd35a]">
-              <h2 className="font-pixel-circle text-4xl md:text-5xl font-bold text-[#5a2e26] mb-4">
+          <div className="max-w-4xl mx-auto relative mb-20">
+            <div className="bg-[#f4c3b3] border-2 border-[#1c1c1c] rounded-2xl p-8 md:p-12 text-center relative z-10 shadow-[8px_8px_0px_0px_#fbd35a]">
+              <h2 className="font-pixel-circle text-3xl md:text-4xl font-bold text-[#5a2e26] mb-3">
                 Have Questions?
               </h2>
               <p className="text-[#844b3e] max-w-md mx-auto mb-8 font-medium">

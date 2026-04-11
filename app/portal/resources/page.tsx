@@ -258,7 +258,7 @@ export default function ResourcesPage() {
                   const LinkIcon = link.icon ?? ExternalLink
                   return (
                     <Link
-                      key={link.href}
+                      key={link.label}
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"

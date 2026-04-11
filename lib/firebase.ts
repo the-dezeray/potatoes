@@ -14,17 +14,6 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-// Ensure all environment variables are present
-// Note: In Next.js client-side, we must access process.env.NEXT_PUBLIC_... literals
-// to allow the compiler to replace them. Bracket notation like process.env[key] won't work.
-Object.entries(firebaseConfig).forEach(([key, value]) => {
-  if (!value) {
-    const envVarName = `NEXT_PUBLIC_FIREBASE_${key.replace(/[A-Z]/g, (m) => "_" + m).toUpperCase()}`
-    throw new Error(
-      `Missing env var ${envVarName}. Add it to .env.local (must be NEXT_PUBLIC_*).`
-    )
-  }
-})
 
 export const firebaseApp = getApps().length
   ? getApp()

@@ -21,8 +21,8 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
   });
 
   // Hero frame shrinking effect
-  const frameWidth = useTransform(heroScroll, [0, 1], ['100%', '80%']);
-  const frameHeight = useTransform(heroScroll, [0, 1], ['100%', '60%']);
+  const frameWidth = useTransform(heroScroll, [0, 1], ['100%', '68%']);
+  const frameHeight = useTransform(heroScroll, [0, 1], ['100%', '52%']);
   const frameRadius = useTransform(heroScroll, [0, 1], ['0px', '40px']);
   const frameShadow = useTransform(
     heroScroll,
@@ -74,8 +74,8 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
             style={{ opacity: headerOpacity }}
             className="absolute inset-0 z-10"
           >
-            <div className="px-6 md:px-10 max-w-7xl mx-auto pt-24 h-full">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            <div className="px-6 md:px-10 max-w-7xl mx-auto pt-20 h-full">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
                 {/* LEFT COLUMN — Heading + tagline + member grid */}
                 <div className="lg:col-span-7 flex flex-col justify-center">
@@ -90,23 +90,23 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
                   </div>
 
                   {/* Main Heading */}
-                  <h1 className="text-5xl md:text-6xl lg:text-[6.5rem] leading-[0.85] font-pixel-circle tracking-tight text-white">
+                  <h1 className="text-4xl md:text-5xl lg:text-[4.5rem] leading-[0.85] font-pixel-circle tracking-tight text-white">
                     Biust <br />
                     <span className="text-[#fbd35a]">Innovation</span> <br />
                     Club
                   </h1>
 
                   {/* Member Grid */}
-                  <div className="mt-40">
+                  <div className="mt-6">
                     <MemberGrid />
                   </div>
                 </div>
 
                 {/* RIGHT COLUMN — Stat card + buttons */}
-                <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-between gap-8 lg:pt-70">
+                <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-between gap-4 lg:pt-28">
 
                   {/* Botswana card — brutalist style */}
-                  <div className="w-full max-w-[320px]">
+                  <div className="w-full max-w-[260px]">
                     {/* Brutalist label bar */}
                     <div className="bg-[#fbd35a] border-2 border-[#fbd35a] px-3 py-1 inline-block mb-0">
                       <span className="text-[10px] font-pixel-grid tracking-[0.2em] text-[#1c1c1c] font-bold uppercase">
@@ -139,16 +139,15 @@ export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
 
                   {/* Buttons — stacked right-aligned */}
                   <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-start lg:items-end gap-3">
-               <Link href ="/apply">
-                    <button className="group flex items-center gap-2 bg-[#fbd35a] text-[#1c1c1c] border-2 border-[#1c1c1c] px-6 py-3 text-sm font-bold hover:bg-[#F2C744] transition-all shadow-[3px_3px_0_#fbd35a] hover:shadow-[5px_5px_0_#fbd35a] hover:-translate-x-0.5 hover:-translate-y-0.5">
-                      Join <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </button>
+                    <Link href="/apply">
+                      <button className="group flex items-center gap-2 bg-[#fbd35a] text-[#1c1c1c] border-2 border-[#1c1c1c] px-6 py-3 text-sm font-bold hover:bg-[#F2C744] transition-all shadow-[3px_3px_0_#fbd35a] hover:shadow-[5px_5px_0_#fbd35a] hover:-translate-x-0.5 hover:-translate-y-0.5">
+                        Join <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </button>
                     </Link>
                     <Link href="/contact">
-                    <button className="group border-2 border-white bg-transparent text-white px-6 py-3 text-sm font-bold hover:bg-white hover:text-[#1c1c1c] transition-all shadow-[3px_3px_0_rgba(255,255,255,0.4)] hover:shadow-[5px_5px_0_rgba(255,255,255,0.4)] hover:-translate-x-0.5 hover:-translate-y-0.5">
-                      Work with us
-
-                    </button>
+                      <button className="group border-2 border-white bg-transparent text-white px-6 py-3 text-sm font-bold hover:bg-white hover:text-[#1c1c1c] transition-all shadow-[3px_3px_0_rgba(255,255,255,0.4)] hover:shadow-[5px_5px_0_rgba(255,255,255,0.4)] hover:-translate-x-0.5 hover:-translate-y-0.5">
+                        Work with us
+                      </button>
                     </Link>
                   </div>
 

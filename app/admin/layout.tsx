@@ -32,7 +32,7 @@ export default function AdminLayout({
           <aside className="w-64 shrink-0 pt-2 sticky top-8 h-fit">
             <div className="flex items-center gap-3 px-2 mb-6">
               <Image 
-                src="/biust-logo.png" 
+                src="/biust-logo.webp" 
                 alt="BIUST Logo" 
                 width={32} 
                 height={32} 

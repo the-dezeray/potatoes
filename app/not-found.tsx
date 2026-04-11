@@ -15,7 +15,7 @@ export default function NotFound() {
       {/* Background with blur effect similar to contact page */}
       <div className="absolute inset-0 z-[-1]">
         <Image
-          src="/image5.png"
+          src="/gg.webp"
           alt="Background"
           fill
           priority

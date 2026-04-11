@@ -9,7 +9,7 @@ const projects = [
   {
     title: 'Smart Study',
     category: 'Full-Stack Platform',
-    image: '/study.png',
+    image: '/study.webp',
     tech: ['Next.js', 'Firebase', 'Tailwind'],
     problem:
       'Many students struggle to effectively plan and manage their study schedules. Smart Study helps students organize their study sessions, track progress, and maintain consistent learning habits.',
@@ -18,7 +18,7 @@ const projects = [
   {
     title: 'BIUST Insight',
     category: 'Mobile App',
-    image: '/insight.png',
+    image: '/insight.webp',
     tech: ['React Native', 'Node.js', 'PostgreSQL'],
     problem:
       'The current BIUST library management system does not include access to past tests and laboratory materials. BIUST Insight provides a centralized repository where students can easily access, share, and contribute academic resources in one place.',
@@ -27,7 +27,7 @@ const projects = [
   {
     title: 'Club Portals',
     category: 'Internal Tool',
-    image: '/club.png',
+    image: '/club.webp',
     tech: ['Next.js', 'TypeScript', 'Firestore'],
     problem:
       'Many student clubs manage operations across scattered spreadsheets and chat groups, making it difficult to track tasks, meetings, deadlines, and resources. Club Portals centralizes these operations into a single platform tailored for each club.',
@@ -36,7 +36,7 @@ const projects = [
   {
     title: 'Botsat-1 Tracker',
     category: 'Public Tool',
-    image: '/bot.jpg',
+    image: '/bot.webp',
     tech: ['Next.js', 'TypeScript', 'Firestore'],
     problem:
       'There was no accessible public interface for tracking the launch and status of Botsat-1. This tool provides a simple platform for the public to follow mission updates and satellite information.',
@@ -45,7 +45,7 @@ const projects = [
   {
     title: "Pioneering Ventures Society",
     category: "Club Website",
-    image: "/pvs.png",
+    image: "/pvs.webp",
     tech: ["Next.js", "Tailwind CSS", "Vercel"],
     problem: "The Pioneering Ventures Society needed a modern, engaging website to showcase their mission, projects, and events. The new site provides a dynamic platform for the club to connect with members and the broader community.",
     links: { github: "#", demo: "https://pioneer-ventures-society.org/" }

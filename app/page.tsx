@@ -7,15 +7,12 @@ import { LandingHero } from '@/components/landing-hero';
 import { WhatWeDo } from '@/components/what-we-do';
 import { Executives } from '@/components/executives';
 import { ProjectsSection } from '@/components/projects-section';
-import { CallToAction } from '@/components/call-to-action';
 import { PartnersSlider } from '@/components/partners-slider';
 import { PassionStats } from '@/components/passion-stats';
-import { ClosingSection } from '@/components/closing-section';
 import { OffersSection } from '@/components/offers-section';
 
 export default function Portfolio() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const lastSectionRef = useRef<HTMLDivElement>(null);
 
   // Track overall scroll progress of the entire page container
   const { scrollYProgress } = useScroll({ container: containerRef });
