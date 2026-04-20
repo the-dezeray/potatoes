@@ -95,12 +95,15 @@ export type AuditAction =
   | "announcement.created"
   | "announcement.updated"
   | "announcement.deleted"
+  | "certificateEvent.created"
+  | "certificate.issued"
+  | "certificate.revoked"
 
 export type AuditLogDoc = {
   actorUid: string
   actorEmail?: string
   action: AuditAction
-  targetType: "user" | "project" | "application" | "announcement"
+  targetType: "user" | "project" | "application" | "announcement" | "certificateEvent" | "certificate"
   targetId: string
   targetLabel?: string
   metadata?: Record<string, unknown>
@@ -108,3 +111,36 @@ export type AuditLogDoc = {
 }
 
 export type AuditLogRow = AuditLogDoc & { id: string }
+
+// ─── Certificates ───────────────────────────────────────────────────────────
+
+export type CertificateStatus = "issued" | "revoked"
+
+export type CertificateEventDoc = {
+  title: string
+  description?: string
+  date?: Timestamp
+  createdAt?: Timestamp
+  createdBy?: string | null
+}
+
+export type CertificateEventRow = CertificateEventDoc & { id: string }
+
+export type CertificateDoc = {
+  eventId?: string
+
+  // external recipient support
+  recipientName: string
+  recipientEmail?: string
+
+  // optional linkage to an authenticated user
+  recipientUserId?: string
+
+  status?: CertificateStatus
+  issuedAt?: Timestamp
+  revokedAt?: Timestamp
+  createdAt?: Timestamp
+  createdBy?: string | null
+}
+
+export type CertificateRow = CertificateDoc & { id: string }

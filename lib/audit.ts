@@ -8,6 +8,7 @@ import {
 
 import { db } from "@/lib/firebase"
 import type { AuditLogDoc } from "@/lib/firestore-types"
+import { stripUndefinedDeep } from "@/lib/firestore-clean"
 
 export type AuditParams = Pick<
   AuditLogDoc,
@@ -18,10 +19,13 @@ export type AuditParams = Pick<
  * Write a single audit log entry (fire-and-forget; does not block your action).
  */
 export function writeAudit(params: AuditParams): Promise<void> {
-  return addDoc(collection(db, "auditLogs"), {
-    ...params,
-    createdAt: serverTimestamp(),
-  }).then(() => undefined)
+  return addDoc(
+    collection(db, "auditLogs"),
+    stripUndefinedDeep({
+      ...params,
+      createdAt: serverTimestamp(),
+    })
+  ).then(() => undefined)
 }
 
 /**
@@ -30,9 +34,12 @@ export function writeAudit(params: AuditParams): Promise<void> {
  */
 export function batchAudit(batch: WriteBatch, params: AuditParams): WriteBatch {
   const ref = doc(collection(db, "auditLogs"))
-  batch.set(ref, {
-    ...params,
-    createdAt: serverTimestamp(),
-  })
+  batch.set(
+    ref,
+    stripUndefinedDeep({
+      ...params,
+      createdAt: serverTimestamp(),
+    })
+  )
   return batch
 }

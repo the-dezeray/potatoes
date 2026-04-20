@@ -38,12 +38,18 @@ const RESOURCES: ResourceSection[] = [
   {
     id: "policies",
     title: "Policies & Guidelines",
-    description: "Club rules, codes of conduct, and membership guidelines.",
+    description: "Club rules, codes of conduct, membership, and brand assets.",
     icon: Shield,
     accent: "bg-blue-50",
     border: "border-blue-200",
     badge: "bg-blue-100 text-blue-700",
     links: [
+      {
+        label: "Logos and Pictures",
+        description: "Club branding assets, logos, and event photos.",
+        href: "https://the-drive-collection.notion.site/Logos-and-pictures-30908e309fed80ffa1fbd336ad554e82?source=copy_link",
+        icon: FileText,
+      },
       {
         label: "Club Constitution",
         description: "Official rules and structure of the club.",
@@ -59,7 +65,7 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "Membership Policy",
         description: "Joining requirements, roles and responsibilities.",
-        href: "https://www.notion.so/the-drive-collection/Policies-30908e309fed808da765e37a9342ddea",
+        href: "https://the-drive-collection.notion.site/Policies-30908e309fed808da765e37a9342ddea",
         icon: GraduationCap,
       },
     ],
@@ -76,13 +82,13 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "General Meeting Notes",
         description: "Archives of all general meeting minutes.",
-        href: "https://www.notion.so/the-drive-collection/Meetings-30908e309fed8076a30bdb4d49be0c34",
+        href: "https://the-drive-collection.notion.site/Meetings-30908e309fed8076a30bdb4d49be0c34?source=copy_link",
         icon: CalendarDays,
       },
       {
         label: "Executive Meeting Notes",
         description: "Notes from leadership team meetings.",
-        href: "https://www.notion.so/the-drive-collection/Meetings-30908e309fed8076a30bdb4d49be0c341",
+        href: "https://the-drive-collection.notion.site/Meetings-30908e309fed8076a30bdb4d49be0c341",
         icon: CalendarDays,
       },
       {
@@ -95,7 +101,7 @@ const RESOURCES: ResourceSection[] = [
   },
   {
     id: "hackathons",
-    title: "Hackathons",
+    title: "Hackathons & Events",
     description: "Upcoming events, past hackathon archives, and team formation.",
     icon: Zap,
     accent: "bg-amber-50",
@@ -103,15 +109,21 @@ const RESOURCES: ResourceSection[] = [
     badge: "bg-amber-100 text-amber-700",
     links: [
       {
-        label: "Upcoming Hackathons",
+        label: "Hackathons",
+        description: "Hackathons we're tracking or attending.",
+        href: "https://the-drive-collection.notion.site/Hackathons-34808e309fed807a94b3c8dbce7491d4?source=copy_link",
+        icon: Zap,
+      },
+      {
+        label: "Events",
         description: "Events we're planning to attend or host.",
-        href: "https://devpost.com/",
+        href: "https://the-drive-collection.notion.site/Events-34808e309fed8089aee4e5f83c566c76?source=copy_link",
         icon: CalendarDays,
       },
       {
         label: "Past Projects & Writeups",
         description: "Submissions and retrospectives from previous events.",
-        href: "https://notion.so/placeholder-past-hackathons",
+        href: "https://the-drive-collection.notion.site/Projects-30908e309fed805e8226c19a8731298c?source=copy_link",
         icon: FileText,
       },
       {
@@ -134,19 +146,19 @@ const RESOURCES: ResourceSection[] = [
       {
         label: "Workshop Slides",
         description: "Slide decks from internal workshops.",
-        href: "https://notion.so/placeholder-workshops",
+        href: "https://the-drive-collection.notion.site/Slides-34808e309fed806eb6e0cbd5d8b9f973?source=copy_link",
         icon: Lightbulb,
       },
       {
         label: "Tech Stack Guides",
         description: "Opinionated guides for our common tools.",
-        href: "https://roadmap.sh/",
+        href: "https://the-drive-collection.notion.site/tech-stack-guides-34808e309fed8048be56e95486efbffd?source=copy_link",
         icon: Code2,
       },
       {
         label: "External Resources Hub",
         description: "Links to courses, docs, and articles we recommend.",
-        href: "https://roadmap.sh/",
+        href: "https://the-drive-collection.notion.site/external-resource-hub-34808e309fed8007ad54c721a66eeed3?source=copy_link",
         icon: Globe,
       },
     ],

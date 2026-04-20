@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, LogOut, Home, ShieldCheck, Megaphone, BookOpen, Users } from "lucide-react"
+import { LayoutDashboard, LogOut, Home, ShieldCheck, Megaphone, BookOpen, Users, Award } from "lucide-react"
 
 import { RequireRole } from "@/components/require-role"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { href: "/portal/announcements", label: "Announcements", icon: Megaphone },
   { href: "/portal/resources", label: "Resources", icon: BookOpen },
   { href: "/portal/directory", label: "Directory", icon: Users },
+  { href: "/portal/certificates", label: "Certificates", icon: Award },
 ]
 
 export default function PortalLayout({

@@ -5,6 +5,7 @@ import {
   FileCheck, 
   Megaphone, 
   BarChart3,
+  Award,
   LucideIcon 
 } from "lucide-react"
 
@@ -54,6 +55,13 @@ const QUICK_LINKS: QuickLink[] = [
     description: "Publish updates",
     icon: Megaphone,
     styles: "bg-amber-500/10 border-amber-500/20 hover:bg-amber-500/20 " 
+  },
+  {
+    href: "/admin/certificates",
+    label: "Certificates",
+    description: "Create & issue",
+    icon: Award,
+    styles: "bg-indigo-500/10 border-indigo-500/20 hover:bg-indigo-500/20 ",
   },
   { 
     href: "/admin/reports", 
