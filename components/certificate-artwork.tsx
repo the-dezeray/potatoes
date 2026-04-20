@@ -55,6 +55,46 @@ export const CertificateArtwork = React.forwardRef<HTMLDivElement, CertificateAr
     },
     ref
   ) {
+    const recipientNameRef = React.useRef<HTMLDivElement | null>(null)
+    const [recipientFontSize, setRecipientFontSize] = React.useState(48)
+
+    const fitRecipientName = React.useCallback(() => {
+      const element = recipientNameRef.current
+      if (!element) return
+
+      const maxFontSize = 48
+      const minFontSize = 18
+
+      // Reset before measuring so we can shrink from a known baseline.
+      element.style.fontSize = `${maxFontSize}px`
+
+      // scrollWidth accounts for the actual rendered width of the text.
+      const availableWidth = element.clientWidth
+      const contentWidth = element.scrollWidth
+
+      if (!availableWidth || !contentWidth) {
+        setRecipientFontSize(maxFontSize)
+        return
+      }
+
+      if (contentWidth <= availableWidth) {
+        setRecipientFontSize(maxFontSize)
+        return
+      }
+
+      const ratio = availableWidth / contentWidth
+      const nextSize = Math.max(minFontSize, Math.floor(maxFontSize * ratio * 0.98))
+      setRecipientFontSize(nextSize)
+    }, [])
+
+    React.useLayoutEffect(() => {
+      fitRecipientName()
+
+      const handleResize = () => fitRecipientName()
+      window.addEventListener("resize", handleResize)
+      return () => window.removeEventListener("resize", handleResize)
+    }, [fitRecipientName, recipientName, variant])
+
     const sizeStyle: React.CSSProperties =
       variant === "fixed"
         ? { width: "11.2in", height: "7.9in" }
@@ -151,11 +191,19 @@ export const CertificateArtwork = React.forwardRef<HTMLDivElement, CertificateAr
 
           <div
             className={greatVibes.className}
+            ref={recipientNameRef}
             style={{
-              fontSize: 48,
+              fontSize: recipientFontSize,
               color: PRIMARY_COLOR,
               marginBottom: 10,
               padding: "0 50px",
+              width: "100%",
+              boxSizing: "border-box",
+              textAlign: "center",
+              maxWidth: "100%",
+              whiteSpace: "nowrap",
+              overflow: "visible",
+              lineHeight: 1.1,
               background: `linear-gradient(to right, transparent, ${SECONDARY_COLOR}, transparent)`,
               backgroundSize: "100% 2px",
               backgroundPosition: "bottom",

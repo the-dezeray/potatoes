@@ -151,56 +151,60 @@ export default function CertificateViewerPage() {
       : "Certificate"
 
   return (
-    <div className="mx-auto max-w-5xl px-4 md:px-6 py-8 space-y-4">
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div>
-            <CardTitle>{title}</CardTitle>
-            <p className="text-sm text-slate-600">ID: {certificateId}</p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={downloadPng} disabled={state.kind !== "issued"}>
-              Download PNG
-            </Button>
-            <Button onClick={downloadPdf} disabled={state.kind !== "issued"}>
-              Download PDF
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {state.kind === "loading" && (
-            <p className="text-sm text-slate-600">Loading certificate…</p>
-          )}
-          {state.kind === "not_found" && (
-            <p className="text-sm text-slate-600">Certificate not found.</p>
-          )}
-          {state.kind === "revoked" && (
-            <div className="space-y-2">
-              <p className="text-sm text-red-700 font-semibold">This certificate has been revoked.</p>
-              <p className="text-sm text-slate-600">Contact the club admins if you believe this is a mistake.</p>
+    <div className="min-h-screen bg-[#FAF6EF] text-[#1c1c1c] selection:bg-[#8ecfc8] selection:text-[#1c1c1c] pb-16 pt-24 px-4 md:px-8">
+      <div className="mx-auto max-w-6xl space-y-8">
+        <div className="flex flex-col">
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#6b6b6b] mb-4">
+            Verification
+          </span>
+          <h1 className="text-4xl md:text-5xl font-medium tracking-tight text-[#1c1c1c]">
+            Official <span className="text-[#1c1c1c]/50 font-pixel uppercase text-3xl">Record.</span>
+          </h1>
+        </div>
+
+        <Card className="bg-white text-[#1c1c1c] border-2 border-[#1c1c1c] shadow-[8px_8px_0_#1c1c1c] rounded-[2rem] overflow-hidden p-0 gap-0">
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b-2 border-[#1c1c1c] bg-[#EDF9F7] text-[#1c1c1c] px-6 py-6 md:px-8 md:py-8 rounded-t-[calc(2rem-2px)]">
+            <div>
+              <CardTitle className="text-2xl font-bold tracking-tight text-[#1c1c1c]">{title}</CardTitle>
+              <p className="text-sm font-medium text-slate-800 mt-1">ID: {certificateId}</p>
             </div>
-          )}
+            <div className="flex flex-wrap gap-3">
+              <Button 
+                variant="outline" 
+                onClick={downloadPng} 
+                disabled={state.kind !== "issued"}
+                className="bg-white text-[#1c1c1c] border-2 border-[#1c1c1c] shadow-[2px_2px_0_#1c1c1c] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all font-bold hover:bg-white"
+              >
+                Download PNG
+              </Button>
+              <Button 
+                onClick={downloadPdf} 
+                disabled={state.kind !== "issued"}
+                className="bg-[#1c1c1c] text-white border-2 border-[#1c1c1c] shadow-[2px_2px_0_#1c1c1c] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all font-bold hover:bg-[#1c1c1c]"
+              >
+                Download PDF
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6 p-6 md:p-8">
+            {state.kind === "loading" && (
+              <p className="text-sm font-medium text-slate-800">Loading certificate…</p>
+            )}
+            {state.kind === "not_found" && (
+              <p className="text-sm font-medium text-slate-800">Certificate not found.</p>
+            )}
+            {state.kind === "revoked" && (
+              <div className="space-y-2 bg-[#FDF0EC] border-2 border-[#C00707] p-4 rounded-xl">
+                <p className="text-sm text-[#C00707] font-bold">This certificate has been revoked.</p>
+                <p className="text-sm text-[#1c1c1c]">Contact the club admins if you believe this is a mistake.</p>
+              </div>
+            )}
 
-          {(state.kind === "issued" || state.kind === "revoked") && (
-            <>
-              <Separator />
-              <div className="flex flex-col lg:flex-row gap-4">
-                <div className="flex-1">
-                  <CertificateArtwork
-                    recipientName={state.certificate.recipientName || "—"}
-                    eventTitle={state.event?.title || "Club Event"}
-                    eventDescription={state.event?.description}
-                    dateText={formatEventDate(state.event?.date) || "APRIL 18, 2026"}
-                    certificateIdText={`BIUST-AI-2026-${certificateId}`}
-                    qrDataUrl={qrDataUrl}
-                    status={state.kind === "revoked" ? "revoked" : "issued"}
-                    variant="responsive"
-                    className="w-full"
-                  />
-
-                  <div className="fixed top-0" style={{ left: -99999 }} aria-hidden>
+            {(state.kind === "issued" || state.kind === "revoked") && (
+              <>
+                <div className="flex flex-col lg:flex-row gap-8">
+                  <div className="flex-1 rounded-xl overflow-hidden border-2 border-[#1c1c1c]">
                     <CertificateArtwork
-                      ref={exportRef}
                       recipientName={state.certificate.recipientName || "—"}
                       eventTitle={state.event?.title || "Club Event"}
                       eventDescription={state.event?.description}
@@ -208,23 +212,38 @@ export default function CertificateViewerPage() {
                       certificateIdText={`BIUST-AI-2026-${certificateId}`}
                       qrDataUrl={qrDataUrl}
                       status={state.kind === "revoked" ? "revoked" : "issued"}
-                      variant="fixed"
+                      variant="responsive"
+                      className="w-full object-cover"
                     />
+
+                    <div className="fixed top-0" style={{ left: -99999 }} aria-hidden>
+                      <CertificateArtwork
+                        ref={exportRef}
+                        recipientName={state.certificate.recipientName || "—"}
+                        eventTitle={state.event?.title || "Club Event"}
+                        eventDescription={state.event?.description}
+                        dateText={formatEventDate(state.event?.date) || "APRIL 18, 2026"}
+                        certificateIdText={`BIUST-AI-2026-${certificateId}`}
+                        qrDataUrl={qrDataUrl}
+                        status={state.kind === "revoked" ? "revoked" : "issued"}
+                        variant="fixed"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="w-full lg:w-72 space-y-4 bg-[#FAF6EF] border-2 border-[#1c1c1c] rounded-xl p-5 shadow-[4px_4px_0_#1c1c1c] h-fit">
+                    <div className="text-lg font-bold tracking-tight text-[#1c1c1c] border-b-2 border-[#1c1c1c]/10 pb-2">Verify</div>
+                    <p className="text-sm font-medium text-slate-800 break-all">{certificateUrl || ""}</p>
+                    <p className="text-xs font-semibold text-slate-700 uppercase tracking-widest mt-4">
+                      This page is the official verification record.
+                    </p>
                   </div>
                 </div>
-
-                <div className="w-full lg:w-72 space-y-2">
-                  <div className="text-sm font-semibold">Verify</div>
-                  <p className="text-xs text-slate-600 wrap-break-word">{certificateUrl || ""}</p>
-                  <p className="text-xs text-slate-500">
-                    This page is the official verification record.
-                  </p>
-                </div>
-              </div>
-            </>
-          )}
-        </CardContent>
-      </Card>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
