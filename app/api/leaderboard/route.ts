@@ -61,6 +61,21 @@ function formatSearchDate(date: Date) {
 }
 
 async function searchCount(accessToken: string, query: string, type: SearchType): Promise<number> {
+  if (type === "COMMITS") {
+    const res = await fetch(`https://api.github.com/search/commits?q=${encodeURIComponent(query)}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/vnd.github+json",
+      },
+      next: { revalidate: 3600 },
+    })
+
+    if (!res.ok) throw new Error(`GitHub API returned HTTP ${res.status}`)
+
+    const json = await res.json()
+    return Number(json.total_count ?? 0)
+  }
+
   const res = await fetch(GITHUB_GRAPHQL, {
     method: "POST",
     headers: {

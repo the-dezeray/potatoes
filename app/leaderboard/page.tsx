@@ -388,6 +388,10 @@ export default function LeaderboardPage() {
                   {privateStatus.msg}
                 </p>
               )}
+
+              <p className="mt-2 text-[10px] text-slate-500">
+                Private repos count only after you connect GitHub.
+              </p>
             </div>
           </div>
 
