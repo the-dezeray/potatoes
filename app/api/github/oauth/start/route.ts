@@ -35,10 +35,23 @@ export async function POST(request: Request): Promise<Response> {
 
     const clientId = process.env.GITHUB_OAUTH_CLIENT_ID
     const redirectUri = process.env.GITHUB_OAUTH_REDIRECT_URI
+    const clientSecret = process.env.GITHUB_OAUTH_CLIENT_SECRET
 
-    if (!clientId || !redirectUri) {
-      return NextResponse.json({ error: "GitHub OAuth is not configured." }, { status: 500 })
+    const missing = [
+      !clientId ? "GITHUB_OAUTH_CLIENT_ID" : null,
+      !clientSecret ? "GITHUB_OAUTH_CLIENT_SECRET" : null,
+      !redirectUri ? "GITHUB_OAUTH_REDIRECT_URI" : null,
+    ].filter(Boolean)
+
+    if (missing.length > 0) {
+      return NextResponse.json(
+        { error: `GitHub OAuth is not configured. Missing: ${missing.join(", ")}.` },
+        { status: 500 }
+      )
     }
+
+    const resolvedClientId = clientId as string
+    const resolvedRedirectUri = redirectUri as string
 
     const state = crypto.randomBytes(32).toString("hex")
 
@@ -50,8 +63,8 @@ export async function POST(request: Request): Promise<Response> {
     })
 
     const url = new URL(GITHUB_OAUTH_URL)
-    url.searchParams.set("client_id", clientId)
-    url.searchParams.set("redirect_uri", redirectUri)
+    url.searchParams.set("client_id", resolvedClientId)
+    url.searchParams.set("redirect_uri", resolvedRedirectUri)
     url.searchParams.set("scope", OAUTH_SCOPE)
     url.searchParams.set("state", state)
 

@@ -1,6 +1,5 @@
 import { collection, doc, getDoc, getDocs, setDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "@/lib/db"
-import { adminDb } from "@/lib/firebase-admin"
 import { decryptSecret } from "@/lib/crypto"
 import { LEADERBOARD_USERS } from "@/lib/leaderboard-users"
 
@@ -8,15 +7,24 @@ export const revalidate = 3600 // 1 hour
 export const runtime = "nodejs"
 
 const GITHUB_GRAPHQL = "https://api.github.com/graphql"
+const DEFAULT_ORG = "INNOVATION-CLUB-BIUST"
 
-const CONTRIBUTIONS_QUERY = `
-  query Contributions($login: String!, $from: DateTime!, $to: DateTime!, $includePrivate: Boolean!) {
+const PUBLIC_CONTRIBUTIONS_QUERY = `
+  query Contributions($login: String!, $from: DateTime!, $to: DateTime!) {
     user(login: $login) {
-      contributionsCollection(from: $from, to: $to, includePrivateContributions: $includePrivate) {
+      contributionsCollection(from: $from, to: $to) {
         totalCommitContributions
         totalPullRequestContributions
         totalIssueContributions
       }
+    }
+  }
+`
+
+const SEARCH_QUERY = `
+  query Search($query: String!, $type: SearchType!) {
+    search(query: $query, type: $type) {
+      issueCount
     }
   }
 `
@@ -44,6 +52,101 @@ type PrivateToken = {
   tokenEnc: string
   tokenIv: string
   tokenTag: string
+}
+
+type SearchType = "ISSUE" | "COMMITS"
+
+function formatSearchDate(date: Date) {
+  return date.toISOString().slice(0, 10)
+}
+
+async function searchCount(accessToken: string, query: string, type: SearchType): Promise<number> {
+  const res = await fetch(GITHUB_GRAPHQL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: SEARCH_QUERY,
+      variables: { query, type },
+    }),
+    next: { revalidate: 3600 },
+  })
+
+  if (!res.ok) throw new Error(`GitHub API returned HTTP ${res.status}`)
+
+  const json = await res.json()
+  if (json.errors?.length) throw new Error(json.errors[0]?.message ?? "GitHub GraphQL error")
+
+  return Number(json.data?.search?.issueCount ?? 0)
+}
+
+async function fetchPublicContributions(
+  accessToken: string,
+  username: string,
+  from: string,
+  to: string
+): Promise<LeaderboardEntry> {
+  const res = await fetch(GITHUB_GRAPHQL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: PUBLIC_CONTRIBUTIONS_QUERY,
+      variables: { login: username, from, to },
+    }),
+    next: { revalidate: 3600 },
+  })
+
+  if (!res.ok) throw new Error(`GitHub API returned HTTP ${res.status}`)
+
+  const json = await res.json()
+  if (json.errors?.length) throw new Error(json.errors[0]?.message ?? "GitHub GraphQL error")
+  if (!json.data?.user) throw new Error(`GitHub user "${username}" not found`)
+
+  const c = json.data.user.contributionsCollection
+  const commits: number = c.totalCommitContributions ?? 0
+  const pullRequests: number = c.totalPullRequestContributions ?? 0
+  const issues: number = c.totalIssueContributions ?? 0
+
+  return { username, name: username, commits, pullRequests, issues, total: commits + pullRequests + issues }
+}
+
+async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  let timeoutId: NodeJS.Timeout | null = null
+  const timeoutPromise = new Promise<T>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("timeout")), ms)
+  })
+
+  try {
+    return await Promise.race([promise, timeoutPromise])
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId)
+  }
+}
+
+async function loadCachedResults(cacheKey: string): Promise<LeaderboardResponse | null> {
+  try {
+    const { adminDb } = await import("@/lib/firebase-admin")
+    const snap = await adminDb.collection("leaderboard_cache").doc(cacheKey).get()
+    if (!snap.exists) return null
+    return snap.data() as LeaderboardResponse
+  } catch (error) {
+    console.warn("Leaderboard cache unavailable.", error)
+    return null
+  }
+}
+
+async function saveCachedResults(cacheKey: string, payload: LeaderboardResponse): Promise<void> {
+  try {
+    const { adminDb } = await import("@/lib/firebase-admin")
+    await adminDb.collection("leaderboard_cache").doc(cacheKey).set(payload, { merge: true })
+  } catch (error) {
+    console.warn("Failed to save leaderboard cache.", error)
+  }
 }
 
 export async function GET(): Promise<Response> {
@@ -74,24 +177,51 @@ export async function GET(): Promise<Response> {
   const now = new Date()
   const from = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString()
   const to = now.toISOString()
+  const fromDate = formatSearchDate(new Date(from))
+  const toDate = formatSearchDate(new Date(to))
+
+  const org = process.env.LEADERBOARD_ORG || DEFAULT_ORG
+  const cacheKey = `${org}:${fromDate}:${toDate}`
 
   // ── Load any opted-in private tokens ─────────────────────────────────────
-  const tokenSnapshot = await adminDb.collection("leaderboard_private_tokens").get()
   const tokenMap = new Map<string, PrivateToken>()
-  tokenSnapshot.forEach((docSnap) => {
-    const data = docSnap.data() as PrivateToken
-    if (data?.githubUsername && data?.tokenEnc && data?.tokenIv && data?.tokenTag) {
-      tokenMap.set(data.githubUsername.toLowerCase(), data)
-    }
-  })
+  try {
+    const { adminDb } = await import("@/lib/firebase-admin")
+    const tokenSnapshot = await adminDb.collection("leaderboard_private_tokens").get()
+    tokenSnapshot.forEach((docSnap) => {
+      const data = docSnap.data() as PrivateToken
+      if (data?.githubUsername && data?.tokenEnc && data?.tokenIv && data?.tokenTag) {
+        tokenMap.set(data.githubUsername.toLowerCase(), data)
+      }
+    })
+  } catch (error) {
+    console.warn("Private token lookup skipped; falling back to public-only data.", error)
+  }
 
   // ── Fetch contributions for every member in parallel ──────────────────────
-  const results = await Promise.all(
+  const publicResultsPromise = Promise.all(
+    allUsers.map(async ({ username, name }): Promise<LeaderboardEntry> => {
+      try {
+        const publicEntry = await fetchPublicContributions(token, username, from, to)
+        return { ...publicEntry, name }
+      } catch (err) {
+        return {
+          username,
+          name,
+          commits: 0,
+          pullRequests: 0,
+          issues: 0,
+          total: 0,
+          error: err instanceof Error ? err.message : "Unknown error",
+        }
+      }
+    })
+  )
+
+  const fullResultsPromise = Promise.all(
     allUsers.map(async ({ username, name }): Promise<LeaderboardEntry> => {
       const privateToken = tokenMap.get(username.toLowerCase())
       let accessToken = token
-      let includePrivate = false
-
       if (privateToken) {
         try {
           accessToken = decryptSecret({
@@ -99,36 +229,43 @@ export async function GET(): Promise<Response> {
             iv: privateToken.tokenIv,
             tag: privateToken.tokenTag,
           })
-          includePrivate = true
         } catch (error) {
           console.warn(`Failed to decrypt token for ${username}:`, error)
         }
       }
 
       try {
-        const res = await fetch(GITHUB_GRAPHQL, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: CONTRIBUTIONS_QUERY,
-            variables: { login: username, from, to, includePrivate },
-          }),
-          next: { revalidate: 3600 },
-        })
+        if (!privateToken) {
+          const publicEntry = await fetchPublicContributions(accessToken, username, from, to)
+          return { ...publicEntry, name }
+        }
 
-        if (!res.ok) throw new Error(`GitHub API returned HTTP ${res.status}`)
+        const commitOrgQuery = `author:${username} org:${org} author-date:${fromDate}..${toDate}`
+        const commitUserQuery = `author:${username} user:${username} author-date:${fromDate}..${toDate}`
+        const prOrgQuery = `type:pr author:${username} org:${org} created:${fromDate}..${toDate}`
+        const prUserQuery = `type:pr author:${username} user:${username} created:${fromDate}..${toDate}`
+        const issueOrgQuery = `type:issue author:${username} org:${org} created:${fromDate}..${toDate}`
+        const issueUserQuery = `type:issue author:${username} user:${username} created:${fromDate}..${toDate}`
 
-        const json = await res.json()
-        if (json.errors?.length) throw new Error(json.errors[0]?.message ?? "GitHub GraphQL error")
-        if (!json.data?.user) throw new Error(`GitHub user "${username}" not found`)
+        const [
+          commitOrg,
+          commitUser,
+          prOrg,
+          prUser,
+          issueOrg,
+          issueUser,
+        ] = await Promise.all([
+          searchCount(accessToken, commitOrgQuery, "COMMITS"),
+          searchCount(accessToken, commitUserQuery, "COMMITS"),
+          searchCount(accessToken, prOrgQuery, "ISSUE"),
+          searchCount(accessToken, prUserQuery, "ISSUE"),
+          searchCount(accessToken, issueOrgQuery, "ISSUE"),
+          searchCount(accessToken, issueUserQuery, "ISSUE"),
+        ])
 
-        const c = json.data.user.contributionsCollection
-        const commits: number = c.totalCommitContributions ?? 0
-        const pullRequests: number = c.totalPullRequestContributions ?? 0
-        const issues: number = c.totalIssueContributions ?? 0
+        const commits = commitOrg + commitUser
+        const pullRequests = prOrg + prUser
+        const issues = issueOrg + issueUser
 
         return { username, name, commits, pullRequests, issues, total: commits + pullRequests + issues }
       } catch (err) {
@@ -144,6 +281,28 @@ export async function GET(): Promise<Response> {
       }
     })
   )
+
+  fullResultsPromise
+    .then((results) => {
+      const payload: LeaderboardResponse = {
+        window: { from, to },
+        generatedAt: new Date().toISOString(),
+        results: results.slice().sort((a, b) => b.total - a.total || b.commits - a.commits),
+      }
+      return saveCachedResults(cacheKey, payload)
+    })
+    .catch((error) => {
+      console.warn("Failed to compute full leaderboard results.", error)
+    })
+
+  let results: LeaderboardEntry[]
+  try {
+    results = await withTimeout(fullResultsPromise, 5000)
+  } catch (error) {
+    console.warn("Leaderboard timed out; returning public-only results.", error)
+    const cached = await loadCachedResults(cacheKey)
+    results = cached?.results ?? (await publicResultsPromise)
+  }
 
   results.sort((a, b) => b.total - a.total || b.commits - a.commits)
 
