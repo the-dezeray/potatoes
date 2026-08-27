@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BIUST Innovation Club — Announcement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #FAF6EF;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    color: #1c1c1c;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    background-image:
+      radial-gradient(at 15% 15%, rgba(255, 68, 0, 0.05) 0px, transparent 40%),
+      radial-gradient(at 85% 15%, rgba(19, 78, 142, 0.05) 0px, transparent 40%),
+      radial-gradient(at 50% 50%, rgba(255, 179, 63, 0.05) 0px, transparent 50%),
+      radial-gradient(at 15% 85%, rgba(192, 7, 7, 0.05) 0px, transparent 40%),
+      radial-gradient(at 85% 85%, rgba(255, 68, 0, 0.05) 0px, transparent 40%);
+  }
+
+  /* ── Card frame — 4:5 portrait ──────────────────────────── */
+  .card {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 4 / 6;
+    display: flex;
+    flex-direction: column;
+    background: #FAF6EF;
+    border: 3px solid #1c1c1c;
+    border-radius: 2rem;
+    box-shadow: 8px 8px 0 #1c1c1c;
+    overflow: hidden;
+  }
+
+  /* ── Logo ───────────────────────────────────────────────── */
+  .logo {
+    display: flex;
+    justify-content: center;
+    padding: 22px 24px 0;
+  }
+
+  .logo img {
+    height: 100px;
+    width: auto;
+    display: block;
+  }
+
+  /* ── Body ───────────────────────────────────────────────── */
+  .body {
+    flex: 1;
+    padding: 20px 28px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(26px, 5vw, 34px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  h1 .hl {
+    color: #ff4400;
+    font-style: italic;
+  }
+
+  .lede {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #555555;
+    text-align: center;
+    margin-bottom: 22px;
+    max-width: 46ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .lede strong { color: #1c1c1c; }
+
+  /* ── Details grid — Date/Time side by side, Venue full ──── */
+  .details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .detail {
+    background: #fff;
+    border: 2px solid #1c1c1c;
+    border-radius: 1.25rem;
+    box-shadow: 4px 4px 0 #1c1c1c;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .detail.full {
+    grid-column: 1 / -1;
+  }
+
+  .detail .icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    border: 2px solid #1c1c1c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+  }
+
+  .detail .icon.yellow { background: #fbd35a; }
+  .detail .icon.teal   { background: #8ecfc8; }
+  .detail .icon.peach  { background: #f4c3b3; }
+
+  .detail .icon svg { width: 18px; height: 18px; }
+
+  .detail .k {
+    font-family: "Press Start 2P", monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6b6b6b;
+    margin-bottom: 7px;
+  }
+
+  .detail .v {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .detail .v small {
+    display: block;
+    font-weight: 500;
+    color: #555555;
+    font-size: 12px;
+    margin-top: 3px;
+  }
+
+  /* ── Agenda ─────────────────────────────────────────────── */
+  .agenda {
+    background: #edf9f7;
+    border: 2px solid #1c1c1c;
+    border-radius: 1.5rem;
+    box-shadow: 4px 4px 0 #1c1c1c;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+  }
+
+  .agenda h2 {
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #134e8e;
+    margin-bottom: 12px;
+  }
+
+  .agenda ul { list-style: none; }
+
+  .agenda li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 7px 0;
+    color: #1c1c1c;
+  }
+
+  .agenda li + li { border-top: 2px dashed rgba(28, 28, 28, 0.15); }
+
+  .agenda .num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: #fbd35a;
+    border: 2px solid #1c1c1c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* ── Closing ────────────────────────────────────────────── */
+  .closing {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #1c1c1c;
+    text-align: center;
+    font-weight: 500;
+    margin-top: auto;
+  }
+
+  /* ── Footer strip ───────────────────────────────────────── */
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: #1c1c1c;
+    padding: 14px 24px;
+    color: #fff;
+  }
+
+  .foot .name {
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .foot .tag {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 500;
+  }
+
+  @media (max-width: 640px) {
+    .details { grid-template-columns: 1fr; }
+    .detail.full { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- Logo -->
+    <div class="logo">
+      <img src="public/mini-logo.png" alt="BIUST Innovation Club" />
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+
+      <h1>Official Meeting of the Semester</h1>
+
+      <p class="lede">
+        To all <strong>BIUST Innovation Club members</strong> — welcome back! 👋<br /><br />
+        We're excited to invite you to our first official meeting of the semester. Join us as
+        we introduce the executive team and we plan for the semester, and hear
+        your ideas for the club.
+      </p>
+
+      <!-- Details -->
+      <div class="details">
+        <div class="detail">
+          <div class="icon yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div class="k">Date</div>
+          <div class="v">Saturday, 15 August 2026</div>
+        </div>
+
+        <div class="detail">
+          <div class="icon teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="k">Time</div>
+          <div class="v">12:00 — 13:30 </div>
+        </div>
+
+        <div class="detail full">
+          <div class="icon peach">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="k">Venue</div>
+          <div class="v">Lotsane Board Room<small>Student Center</small></div>
+        </div>
+      </div>
+
+      <!-- Agenda -->
+      <div class="agenda">
+        <h2>On the Agenda</h2>
+        <ul>
+          <li><span class="num">1</span> Welcome Back &amp; Executive Team Introductions</li>
+          <li><span class="num">2</span> Semester Roadmap — Projects, Hack Nights &amp; Courses</li>
+          <li><span class="num">3</span> Open Floor Q&amp;A — Your Ideas &amp; Questions</li>
+        </ul>
+      </div>
+
+      <!-- Closing -->
+      <p class="closing">
+        We look forward to seeing you there and starting the semester together.
+      </p>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="foot">
+      <span class="name">BIUST Innovation Club</span>
+      <span class="tag">Building the future of tech in Botswana.</span>
+    </div>
+
+  </div>
+</body>
+</html>

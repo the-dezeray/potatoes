@@ -1,0 +1,169 @@
+'use client';
+import React, { useRef } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { TextScramble } from '@/components/motion-primitives/text-scramble';
+import { MemberGrid } from '@/components/member-grid';
+import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
+interface LandingHeroProps {
+  scrollContainerRef?: React.RefObject<HTMLDivElement | null>;
+}
+
+export const LandingHero = ({ scrollContainerRef }: LandingHeroProps) => {
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  // Track scroll progress of the hero section inside the custom scroll container
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    container: scrollContainerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Hero frame shrinking effect - made larger by increasing end percentages
+  const frameWidth = useTransform(heroScroll, [0, 1], ['100%', '85%']);
+  const frameHeight = useTransform(heroScroll, [0, 1], ['100%', '75%']);
+  const frameRadius = useTransform(heroScroll, [0, 1], ['0px', '40px']);
+  const frameShadow = useTransform(
+    heroScroll,
+    [0.5, 1],
+    ['0px 0px 0px rgba(0,0,0,0)', '0px 40px 80px rgba(0,0,0,0.2)']
+  );
+  // Zoom inner content as the frame shrinks
+  const innerScale = useTransform(heroScroll, [0, 1], [1, 1.5]);
+  // Fade out hero text/cards/buttons as user scrolls
+  const headerOpacity = useTransform(heroScroll, [0.1, 0.4], [1, 0]);
+
+  return (
+    <section
+      ref={heroRef}
+      className="relative h-[200vh] flex flex-col items-center snap-start snap-always"
+    >
+      {/* Sticky viewport — stays visible while the 200vh section scrolls through */}
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+        {/* Shrinking frame */}
+        <motion.div
+          style={{
+            width: frameWidth,
+            height: frameHeight,
+            borderRadius: frameRadius,
+            boxShadow: frameShadow,
+          }}
+          className="relative overflow-hidden"
+        >
+          {/* Zooming inner content */}
+          <motion.div
+            style={{ scale: innerScale }}
+            className="relative w-full h-full"
+          >
+            {/* Background image */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: "url('/image10.webp')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/70" />
+          </motion.div>
+
+          {/* Hero content — sits on top of the frame, fades out on scroll */}
+          <motion.div
+            style={{ opacity: headerOpacity }}
+            className="absolute inset-0 z-10"
+          >
+            <div className="px-6 md:px-12 max-w-7xl mx-auto pt-28 h-full">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+                {/* LEFT COLUMN — Heading + tagline + member grid */}
+                <div className="lg:col-span-8 flex flex-col justify-center">
+                  {/* Tagline */}
+                  <div>
+                    <TextScramble
+                      className="text-sm font-pixel-grid tracking-[0.25em] bg-black text-white px-4 py-1.5 mb-8 inline-block"
+                      duration={1.2}
+                    >
+                      We build and craft digital solutions
+                    </TextScramble>
+                  </div>
+
+                  {/* Main Heading */}
+                  <h1 className="text-5xl md:text-7xl lg:text-[6rem] leading-[0.85] font-pixel-circle tracking-tight text-white mb-2">
+                    Biust <br />
+                    <span className="text-[#fbd35a]">Innovation</span> <br />
+                    Club
+                  </h1>
+
+                  {/* Member Grid */}
+                  <div className="mt-8">
+                    <MemberGrid />
+                  </div>
+                </div>
+
+                {/* RIGHT COLUMN — Stat card + buttons */}
+                <div className="lg:col-span-4 flex flex-col items-start lg:items-start justify-between gap-8 lg:pt-36">
+
+                  {/* Botswana card — brutalist style */}
+                  <div className="w-full max-w-[320px]">
+                    {/* Brutalist label bar */}
+                    <div className="bg-[#fbd35a] border-2 border-[#fbd35a] px-4 py-1.5 inline-block mb-0">
+                      <span className="text-[12px] font-pixel-grid tracking-[0.2em] text-[#1c1c1c] font-bold uppercase">
+                        Est. Botswana
+                      </span>
+                    </div>
+
+                    {/* Main card body */}
+                    <div className="border-2 border-white/40 bg-black/60 px-6 py-8 shadow-[6px_6px_0_#fbd35a]">
+                      <p className="text-white text-lg font-pixel-grid leading-relaxed tracking-wide">
+                        Driving the future through<br />
+                        <span className="text-[#fbd35a] font-bold">collaboration</span> and<br />
+                        rapid <span className="text-[#fbd35a] font-bold">prototyping.</span>
+                      </p>
+
+                      {/* Decorative divider */}
+                      <div className="mt-6 flex items-center gap-2">
+                        <div className="h-px flex-1 bg-white/20" />
+                        <div className="w-2 h-2 bg-[#fbd35a]" />
+                        <div className="h-px flex-1 bg-white/20" />
+                      </div>
+
+                      <p className="mt-4 text-[12px] tracking-[0.2em] text-white/40 font-pixel-grid uppercase">
+                        BIUST — Innovation Hub
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Buttons — stacked left-aligned */}
+                  <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-start lg:items-start gap-4 w-full">
+                    <Link href="/apply" className="w-full sm:w-auto lg:w-full xl:w-auto">
+                      <button className="w-full group flex items-center justify-center gap-2 bg-[#fbd35a] text-[#1c1c1c] border-2 border-[#1c1c1c] px-8 py-4 text-base font-bold hover:bg-[#F2C744] transition-all shadow-[4px_4px_0_#fbd35a] hover:shadow-[6px_6px_0_#fbd35a] hover:-translate-x-0.5 hover:-translate-y-0.5">
+                        Join <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </button>
+                    </Link>
+                    <Link href="/contact" className="w-full sm:w-auto lg:w-full xl:w-auto">
+                      <button className="w-full group border-2 border-white bg-transparent text-white px-8 py-4 text-base font-bold hover:bg-white hover:text-[#1c1c1c] transition-all shadow-[4px_4px_0_rgba(255,255,255,0.4)] hover:shadow-[6px_6px_0_rgba(255,255,255,0.4)] hover:-translate-x-0.5 hover:-translate-y-0.5">
+                        Work with us
+                      </button>
+                    </Link>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll Indicator — fades out with the header */}
+        <motion.div
+          style={{ opacity: headerOpacity }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"
+        >
+          <span className="text-[10px] text-white/20 uppercase tracking-[0.5em]">Scroll</span>
+          <ChevronDown size={50} className="text-white opacity-70 animate-bounce" />
+        </motion.div>
+      </div>
+    </section>   
+  );
+};
