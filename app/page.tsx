@@ -52,6 +52,7 @@ export default function Portfolio() {
       </main>
 
       <Footer />
+      {/* project lab notes for club members: /hunt */}
     </motion.div>
   );
 }
