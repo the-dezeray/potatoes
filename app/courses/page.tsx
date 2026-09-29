@@ -147,7 +147,7 @@ export default function CoursesPage() {
     
     setIsEnrolling(true);
     try {
-      const price = formData.isMember ? 0 : 150;
+      const price = formData.isMember ? 0 : 200;
       
       // 1. Save to Firestore
       await addDoc(collection(db, 'enrollments'), {
@@ -433,7 +433,7 @@ export default function CoursesPage() {
                           <div className="flex items-center justify-between p-4 bg-white border-2 border-[#1c1c1c] rounded-xl">
                             <span className="text-sm font-bold text-[#6b6b6b]">Registration Fee:</span>
                             <span className="text-2xl font-black">
-                              {formData.isMember ? 'FREE' : 'P 150.00'}
+                              {formData.isMember ? 'FREE' : 'P 200.00'}
                             </span>
                           </div>
 

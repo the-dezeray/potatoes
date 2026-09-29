@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BIUST Innovation Club — How the Course Will Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #FAF6EF;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    color: #1c1c1c;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background-image:
+      radial-gradient(at 15% 15%, rgba(255, 68, 0, 0.05) 0px, transparent 45%),
+      radial-gradient(at 85% 15%, rgba(19, 78, 142, 0.05) 0px, transparent 45%),
+      radial-gradient(at 50% 80%, rgba(255, 179, 63, 0.06) 0px, transparent 50%);
+  }
+
+  /* ── Card ────────────────────────────────────────────── */
+  .card {
+    width: 100%;
+    max-width: 900px;
+    background: #FAF6EF;
+    border: 3px solid #1c1c1c;
+    border-radius: 2rem;
+    box-shadow: 12px 12px 0 #1c1c1c;
+    overflow: hidden;
+  }
+
+  /* ── Header band ─────────────────────────────────────── */
+  .band {
+    background: #1c1c1c;
+    color: #fff;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 3px solid #1c1c1c;
+  }
+
+  .band .logo {
+    height: 56px;
+    width: auto;
+    display: block;
+  }
+
+  .band .mark {
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .band .flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fbd35a;
+    color: #1c1c1c;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .band .flag svg { width: 15px; height: 15px; }
+
+  /* ── Body: two columns ───────────────────────────────── */
+  .body {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 26px;
+    padding: 30px 30px 34px;
+  }
+
+  /* ── Left: heading + how it works ───────────────────── */
+  h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  h1 .hl { color: #ff4400; font-style: italic; }
+
+  .lede {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #555555;
+    margin-bottom: 24px;
+    max-width: 46ch;
+  }
+
+  .lede strong { color: #1c1c1c; }
+
+  /* ── How it works steps ──────────────────────────────── */
+  .steps {
+    display: grid;
+    gap: 14px;
+  }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    background: #fff;
+    border: 2px solid #1c1c1c;
+    border-radius: 1.25rem;
+    box-shadow: 4px 4px 0 #1c1c1c;
+    padding: 14px 16px;
+    align-items: flex-start;
+  }
+
+  .step .num {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    background: #fbd35a;
+    border: 2px solid #1c1c1c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Press Start 2P", monospace;
+    font-size: 12px;
+    box-shadow: 2px 2px 0 #1c1c1c;
+  }
+
+  .step:nth-child(1) .num { background: #fbd35a; }
+  .step:nth-child(2) .num { background: #8ecfc8; }
+  .step:nth-child(3) .num { background: #f4c3b3; }
+
+  .step .txt { font-size: 14px; line-height: 1.5; color: #3a3a3a; }
+  .step .txt strong { color: #1c1c1c; }
+
+  /* ── Pass banner ─────────────────────────────────────── */
+  .pass {
+    margin-top: 6px;
+    background: #f4c3b3;
+    border: 2px solid #1c1c1c;
+    border-radius: 1.25rem;
+    box-shadow: 4px 4px 0 #1c1c1c;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .pass b { color: #c00707; font-size: 17px; }
+
+  /* ── Right: at a glance + pricing ───────────────────── */
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .panel {
+    background: #edf9f7;
+    border: 2px solid #1c1c1c;
+    border-radius: 1.5rem;
+    box-shadow: 5px 5px 0 #1c1c1c;
+    padding: 20px;
+  }
+
+  .panel .k {
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #134e8e;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed rgba(28, 28, 28, 0.2);
+  }
+
+  .glance {
+    display: grid;
+    gap: 12px;
+  }
+
+  .glance .row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .glance .icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    border: 2px solid #1c1c1c;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glance .icon svg { width: 15px; height: 15px; }
+
+  .glance .l {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b6b6b;
+  }
+
+  .glance .v { font-size: 14px; font-weight: 700; color: #1c1c1c; }
+
+  /* ── Pricing ─────────────────────────────────────────── */
+  .plans { display: grid; gap: 12px; }
+
+  .plan {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #fff;
+    border: 2px solid #1c1c1c;
+    border-radius: 1.25rem;
+    box-shadow: 4px 4px 0 #1c1c1c;
+    padding: 14px 16px;
+  }
+
+  .plan.member { background: #fbd35a; }
+
+  .plan .who { font-size: 15px; font-weight: 700; }
+  .plan .who small { display: block; font-weight: 500; color: #6b6b6b; font-size: 12px; }
+
+  .plan .price { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+
+  .plan .price small {
+    display: block;
+    text-align: right;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b6b6b;
+    letter-spacing: 0;
+  }
+
+  /* ── Footer ──────────────────────────────────────────── */
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: #1c1c1c;
+    color: #fff;
+    padding: 16px 28px;
+  }
+
+  .foot .name {
+    font-family: "Press Start 2P", monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .foot .tag { font-size: 12px; color: rgba(255, 255, 255, 0.65); font-weight: 500; }
+
+  @media (max-width: 720px) {
+    .body { grid-template-columns: 1fr; }
+    .band { flex-direction: column; align-items: flex-start; }
+    .band .mark { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- Header band -->
+    <div class="band">
+      <img class="logo" src="public/mini-logo.png" alt="BIUST Innovation Club" />
+      <div class="mark">Innovation Club</div>
+      <div class="flag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        Course 2026
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+
+      <!-- Left column -->
+      <div>
+        <h1>How the <span class="hl">Course</span> Will Work</h1>
+        <p class="lede">
+          A practical, guided way to learn — combining <strong>self-paced material</strong>
+          with <strong>weekly support</strong> from your coordinator.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="num">01</div>
+            <div class="txt">
+              Learn through <strong>video lessons, external learning resources, practical
+              assignments</strong>, and <strong>weekly coordinator sessions</strong>.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="num">02</div>
+            <div class="txt">
+              Go through the material and complete the tasks — <strong>every assignment is
+              graded</strong> and counts towards your final mark.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="num">03</div>
+            <div class="txt">
+              Join a <strong>weekly session with your coordinator</strong> to ask questions,
+              discuss what you've learned, get guidance, and tackle any challenges.
+            </div>
+          </div>
+        </div>
+
+        <div class="pass">
+          To complete the course, you need a final mark of <b>60% or above</b>.
+        </div>
+      </div>
+
+      <!-- Right column: at a glance + pricing -->
+      <div class="side">
+        <div class="panel">
+          <div class="k">At a Glance</div>
+          <div class="glance">
+            <div class="row">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </div>
+              <div>
+                <div class="l">Format</div>
+                <div class="v">Self-paced + weekly sessions</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              </div>
+              <div>
+                <div class="l">Grading</div>
+                <div class="v">Every assignment counts</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <div>
+                <div class="l">Pass mark</div>
+                <div class="v">60% to complete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="k">Pricing</div>
+          <div class="plans">
+            <div class="plan member">
+              <div>
+                <div class="who">Members<small>Innovation Club</small></div>
+              </div>
+              <div class="price">FREE<small>no fee</small></div>
+            </div>
+            <div class="plan">
+              <div>
+                <div class="who">Non-members<small>per course</small></div>
+              </div>
+              <div class="price">P 200<small>one-time fee</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="foot">
+      <span class="name">BIUST Innovation Club</span>
+      <span class="tag">Building the future of tech in Botswana.</span>
+    </div>
+
+  </div>
+</body>
+</html>
