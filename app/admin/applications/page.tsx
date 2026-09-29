@@ -151,8 +151,15 @@ export default function AdminApplicationsPage() {
         <CardTitle>Membership Applications</CardTitle>
         <CardDescription>Approve or reject pending membership requests. Only users who have submitted the application form appear here.</CardDescription>
       </CardHeader>
-      <CardContent>
-        <Table>
+      <CardContent className="overflow-x-auto">
+        <Table className="table-fixed w-full">
+          <colgroup>
+            <col className="w-[35%]" />
+            <col className="w-[15%]" />
+            <col className="w-[25%]" />
+            <col className="w-[10%]" />
+            <col className="w-[15%]" />
+          </colgroup>
           <TableHeader>
             <TableRow>
               <TableHead>Applicant</TableHead>
@@ -172,26 +179,26 @@ export default function AdminApplicationsPage() {
             ) : (
               apps.map((a) => (
                 <TableRow key={a.id}>
-                  <TableCell>
-                    <div className="font-medium">{a.name || a.email}</div>
-                    <div className="text-xs text-muted-foreground line-clamp-1">{a.skills ?? "No expertise listed"}</div>
+                  <TableCell className="max-w-0">
+                    <div className="font-medium truncate">{a.name || a.email}</div>
+                    <div className="text-xs text-muted-foreground truncate">{a.skills ?? "No expertise listed"}</div>
                     {a.bio && (
                       <div className="mt-1 line-clamp-2 text-[10px] text-muted-foreground italic border-l-2 border-slate-100 pl-2">
                         &quot;{a.bio}&quot;
                       </div>
                     )}
                   </TableCell>
-                  <TableCell>
-                    <div className="text-sm font-bold">{a.level ?? "—"}</div>
-                    <div className="text-[11px] text-muted-foreground line-clamp-1">{a.course ?? "—"}</div>
+                  <TableCell className="max-w-0">
+                    <div className="text-sm font-bold truncate">{a.level ?? "—"}</div>
+                    <div className="text-[11px] text-muted-foreground truncate">{a.course ?? "—"}</div>
                   </TableCell>
-                  <TableCell>
-                    <div className="text-sm font-medium">{a.email}</div>
-                    <div className="text-xs text-muted-foreground leading-none mb-1">{a.phoneNumber ?? "—"}</div>
+                  <TableCell className="max-w-0">
+                    <div className="text-sm font-medium truncate">{a.email}</div>
+                    <div className="text-xs text-muted-foreground truncate">{a.phoneNumber ?? "—"}</div>
                     {a.githubUsername && (
-                       <div className="flex items-center gap-1 text-[11px] text-sky-600 font-mono">
-                         <Github className="w-2.5 h-2.5" /> {a.githubUsername}
-                       </div>
+                      <div className="flex items-center gap-1 text-[11px] text-sky-600 font-mono truncate">
+                        <Github className="w-2.5 h-2.5 shrink-0" /> {a.githubUsername}
+                      </div>
                     )}
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
@@ -200,7 +207,7 @@ export default function AdminApplicationsPage() {
                       : "—"}
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="inline-flex gap-2">
+                    <div className="inline-flex gap-2 justify-end">
                       <Button
                         type="button"
                         size="sm"
