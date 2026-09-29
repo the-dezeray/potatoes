@@ -29,7 +29,101 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## GitHub Leaderboard
+## Notice Board Beta Invitation Emails
+
+Sends personalized login-invitation emails to beta testers of the BIUST Notice Board.
+
+### What it does
+
+Each recipient gets a custom-styled HTML email (matching the club's card design): their name
+in the greeting, their email shown as the **username**, and a shared password. The sign-in
+button links to the deployed board at `https://biust-notice-board.vercel.app`.
+
+### Files
+
+| File | Purpose |
+| --- | --- |
+| `emails/recipients.js` | **Git-ignored.** The real recipient list (`email`, `name`) — keep local |
+| `emails/recipients.example.js` | Committed template — copy to `recipients.js` to set up |
+| `emails/inviteTemplate.js` | Builds the HTML email from a recipient + password |
+| `scripts/sendInvites.mjs` | Sends the emails via Gmail SMTP (nodemailer) |
+
+`emails/recipients.js` is ignored because it contains real student email addresses. The shared
+password lives in `.env` as `INVITE_PASSWORD`, never in the repo.
+
+### Requirements
+
+- Node.js
+- `.env` with Gmail credentials and the shared invite password:
+
+  ```env
+  GMAIL_USER=...
+  GMAIL_APP_PASSWORD=...
+  INVITE_PASSWORD=...
+  ```
+
+  Use a [Google App Password](https://support.google.com/accounts/answer/185833) — not your
+  normal Gmail password. `GMAIL_APP_PASSWORD` and `INVITE_PASSWORD` are secrets; never commit
+  the `.env` file.
+
+### Usage
+
+From the repo root, always load `.env` with `--env-file`:
+
+```bash
+# Preview a single test email (chinwaru's matches) without sending anything
+node --env-file=.env scripts/sendInvites.mjs --test --dry
+
+# Send a real test email to Desiree Chingwaru only
+node --env-file=.env scripts/sendInvites.mjs --test
+
+# Send to ALL recipients listed in emails/recipients.js
+node --env-file=.env scripts/sendInvites.mjs
+
+# Render emails to HTML files (emails/out/) — open in browser, copy & paste into Outlook
+node --env-file=.env scripts/sendInvites.mjs --save
+```
+
+Flags:
+
+- `--test` — only the recipient whose email starts with `CD23018473` (Desiree Chingwaru).
+- `--dry`  — print the generated HTML instead of sending (combine with `--test` to preview).
+- `--save` — write each rendered email to `emails/out/<EMAIL>.html` (nothing is sent). Open
+  the file in a browser, `Ctrl+A` + `Ctrl+C`, then paste into an Outlook message composed
+  from your school account — a manual workaround for the BIUST deliverability issue below.
+
+The `--test` filter lives in `scripts/sendInvites.mjs` (`.startsWith("cd23018473")`). Update
+it if you want to test with a different address.
+
+### Changing recipients
+
+Edit `emails/recipients.js` (create it from `emails/recipients.example.js` if missing). Keep
+entries as `{ email, name }`. The shared password is read from the `INVITE_PASSWORD` env var.
+
+### Editing the email design
+
+Edit `emails/inviteTemplate.js`. It returns an HTML string with `${name}`, `${email}` and
+`${password}` interpolated. HTML is inline-styled for email client compatibility
+(table-based layout, no external CSS). To change the sign-in link, update the `href` on the
+call-to-action button.
+
+### Known issue — BIUST / Outlook deliverability
+
+`smtp.gmail.com` successfully sends to Gmail recipients. However, test emails to
+`@biust.ac.bw` addresses (hosted on **Microsoft 365 / Exchange Online**, MX =
+`biust-ac-bw.mail.protection.outlook.com`) are accepted by the mail server but do **not**
+appear in the recipient's inbox, junk, or archive. This is almost certainly:
+
+- **Exchange Online Protection (EOP)** silently quarantining the message (quarantine is only
+  visible to the domain admin, not the user), and/or
+- Bulk-mail / content filtering on the free Gmail sender account.
+
+**Action needed outside this repo:** have the BIUST Microsoft 365 admin check the EOP
+**Quarantine** (Exchange admin center → Quarantine / Defender portal) for messages sent from
+`GMAIL_USER`, and release/allowlist them. Consider a transactional ESP (Resend, SendGrid,
+Postmark) or sending from a university-trusted address for better deliverability to M365.
+
+---
 
 The club features a public GitHub contributions leaderboard at `/leaderboard` that ranks members by commits, pull requests, and issues opened during the current calendar month.
 

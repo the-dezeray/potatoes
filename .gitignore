@@ -17,6 +17,11 @@
 /.next/
 /out/
 
+# invitation email recipients + generated emails (contain the shared password)
+#/emails/recipients.example.js
+/emails/recipients.js
+/emails/out/
+
 # production
 /build
 
