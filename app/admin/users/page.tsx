@@ -5,7 +5,7 @@ import * as React from "react"
 import { useAuth } from "@/components/AuthContext"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Shield, User, UserMinus, UserPlus, XCircle } from "lucide-react"
+import { Github, Mail, Phone, Shield, User, XCircle } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -70,12 +70,21 @@ export default function AdminUsersPage() {
           name: data.name,
           bio: data.bio,
           skills: data.skills,
+          phoneNumber: data.phoneNumber,
+          level: data.level,
+          course: data.course,
+          githubUsername: data.githubUsername,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
         }
       })
-      next.sort((a, b) => (a.email ?? "").localeCompare(b.email ?? ""))
-      setUsers(next)
+      // Applicants live in this same collection as role "pending", so keep them
+      // off this page. They are reviewed on /admin/applications instead.
+      const members = next.filter(
+        (u) => u.role === "member" || u.role === "admin"
+      )
+      members.sort((a, b) => (a.email ?? "").localeCompare(b.email ?? ""))
+      setUsers(members)
     })
 
     const unsubProjects = onSnapshot(collection(db, "projects"), (snap) => {
@@ -165,7 +174,8 @@ export default function AdminUsersPage() {
         <CardHeader>
           <CardTitle>Club Members</CardTitle>
           <CardDescription>
-            Manage roles and project assignments for all registered users.
+            Approved members and admins, with contact details. Manage roles and project
+            assignments. Pending applicants are reviewed on the Applications page.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -173,6 +183,7 @@ export default function AdminUsersPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Email / Name</TableHead>
+                <TableHead>Contact</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Projects</TableHead>
                 <TableHead>Joined</TableHead>
@@ -182,8 +193,8 @@ export default function AdminUsersPage() {
             <TableBody>
               {users.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-muted-foreground">
-                    No users yet.
+                  <TableCell colSpan={6} className="text-muted-foreground">
+                    No members yet. Pending applications are reviewed on the Applications page.
                   </TableCell>
                 </TableRow>
               ) : (
@@ -196,9 +207,49 @@ export default function AdminUsersPage() {
                   return (
                     <TableRow key={u.id}>
                       <TableCell>
-                        <div className="font-medium">{u.email ?? u.id}</div>
-                        {u.name && (
-                          <div className="text-xs text-muted-foreground">{u.name}</div>
+                        <div className="font-medium">{u.name ?? u.email ?? u.id}</div>
+                        {u.name && u.email && (
+                          <div className="text-xs text-muted-foreground">{u.email}</div>
+                        )}
+                        {(u.level || u.course) && (
+                          <div className="text-[11px] text-muted-foreground leading-tight">
+                            {[u.level, u.course].filter(Boolean).join(" · ")}
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {u.email ? (
+                          <a
+                            href={`mailto:${u.email}`}
+                            className="flex items-center gap-1 text-sm text-sky-600 hover:underline"
+                          >
+                            <Mail className="w-3 h-3 shrink-0" />
+                            <span className="truncate">{u.email}</span>
+                          </a>
+                        ) : (
+                          <div className="text-sm text-muted-foreground">—</div>
+                        )}
+                        {u.phoneNumber ? (
+                          <a
+                            href={`tel:${u.phoneNumber}`}
+                            className="flex items-center gap-1 text-xs text-sky-600 hover:underline"
+                          >
+                            <Phone className="w-3 h-3 shrink-0" />
+                            {u.phoneNumber}
+                          </a>
+                        ) : (
+                          <div className="text-xs text-muted-foreground">No phone</div>
+                        )}
+                        {u.githubUsername && (
+                          <a
+                            href={`https://github.com/${u.githubUsername}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-[11px] text-sky-600 font-mono hover:underline"
+                          >
+                            <Github className="w-3 h-3 shrink-0" />
+                            {u.githubUsername}
+                          </a>
                         )}
                       </TableCell>
                       <TableCell>
@@ -215,20 +266,6 @@ export default function AdminUsersPage() {
                       <TableCell className="text-right">
                         <div className="inline-flex justify-end gap-2">
                           {/* Main Role Actions */}
-                          {u.role === "pending" && (
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="default"
-                              disabled={isBusy}
-                              onClick={() => changeRole(u, "member")}
-                              className="h-8"
-                            >
-                              <UserPlus className="w-4 h-4 mr-1" />
-                              Approve
-                            </Button>
-                          )}
-
                           {u.role === "member" && (
                             <Button
                               type="button"
@@ -257,32 +294,17 @@ export default function AdminUsersPage() {
                             </Button>
                           )}
 
-                          {u.role !== "rejected" && (
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="ghost"
-                              disabled={isBusy}
-                              onClick={() => changeRole(u, "rejected")}
-                              className="h-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            >
-                              <XCircle className="w-4 h-4 mr-1" />
-                              Reject
-                            </Button>
-                          )}
-
-                          {u.role === "rejected" && (
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              disabled={isBusy}
-                              onClick={() => changeRole(u, "pending")}
-                              className="h-8"
-                            >
-                              Restore
-                            </Button>
-                          )}
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            disabled={isBusy}
+                            onClick={() => changeRole(u, "rejected")}
+                            className="h-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <XCircle className="w-4 h-4 mr-1" />
+                            Reject
+                          </Button>
 
                           <Button
                             type="button"

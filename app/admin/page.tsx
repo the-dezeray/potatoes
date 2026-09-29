@@ -31,8 +31,8 @@ interface QuickLink {
 const QUICK_LINKS: QuickLink[] = [
   { 
     href: "/admin/users", 
-    label: "Manage users", 
-    description: "Roles & assignments",
+    label: "Manage members", 
+    description: "Contacts, roles & projects",
     icon: Users,
     styles: "bg-blue-500/10 border-blue-500/20 hover:bg-blue-500/20 " 
   },
