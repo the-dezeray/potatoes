@@ -63,6 +63,27 @@ export type ApplicationDoc = {
 
 export type ApplicationRow = ApplicationDoc & { id: string }
 
+// ─── Enrollments ────────────────────────────────────────────────────────────
+
+export type EnrollmentStatus = "pending" | "confirmed" | "rejected"
+
+export type EnrollmentDoc = {
+  courseTitle: string
+  userId?: string
+  fullName?: string
+  email?: string
+  phone?: string
+  isMember?: boolean
+  price?: number
+  status: EnrollmentStatus
+  enrolledAt?: Timestamp
+  reviewedAt?: Timestamp
+  reviewedBy?: string | null
+  updatedAt?: Timestamp
+}
+
+export type EnrollmentRow = EnrollmentDoc & { id: string }
+
 // ─── Announcements ────────────────────────────────────────────────────────────
 
 export type AnnouncementType = "general" | "meeting" | "payment" | "warning" | "link"
@@ -98,12 +119,13 @@ export type AuditAction =
   | "certificateEvent.created"
   | "certificate.issued"
   | "certificate.revoked"
+  | "enrollment.status_changed"
 
 export type AuditLogDoc = {
   actorUid: string
   actorEmail?: string
   action: AuditAction
-  targetType: "user" | "project" | "application" | "announcement" | "certificateEvent" | "certificate"
+  targetType: "user" | "project" | "application" | "announcement" | "certificateEvent" | "certificate" | "enrollment"
   targetId: string
   targetLabel?: string
   metadata?: Record<string, unknown>

@@ -10,6 +10,7 @@ import {
   Megaphone, 
   BarChart,
   Award,
+  GraduationCap,
   Home,
   LogOut
 } from "lucide-react"
@@ -68,6 +69,12 @@ export default function AdminLayout({
                 <Link href="/admin/applications">
                   <FileText className="w-4 h-4 text-slate-500" />
                   <span>Applications</span>
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" className="justify-start hover:bg-slate-100 gap-3 px-4">
+                <Link href="/admin/enrollments">
+                  <GraduationCap className="w-4 h-4 text-slate-500" />
+                  <span>Enrollments</span>
                 </Link>
               </Button>
               <Button asChild variant="ghost" className="justify-start hover:bg-slate-100 gap-3 px-4">

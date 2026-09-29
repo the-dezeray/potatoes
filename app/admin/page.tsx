@@ -6,6 +6,7 @@ import {
   Megaphone, 
   BarChart3,
   Award,
+  GraduationCap,
   LucideIcon 
 } from "lucide-react"
 
@@ -48,6 +49,13 @@ const QUICK_LINKS: QuickLink[] = [
     description: "Approve or reject",
     icon: FileCheck,
     styles: "bg-emerald-500/10 border-emerald-500/20 hover:bg-emerald-500/20 " 
+  },
+  { 
+    href: "/admin/enrollments", 
+    label: "Manage enrollments", 
+    description: "Confirm or reject registrations",
+    icon: GraduationCap,
+    styles: "bg-teal-500/10 border-teal-500/20 hover:bg-teal-500/20 " 
   },
   { 
     href: "/admin/announcements", 
