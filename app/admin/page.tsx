@@ -7,6 +7,7 @@ import {
   BarChart3,
   Award,
   GraduationCap,
+  Receipt,
   LucideIcon 
 } from "lucide-react"
 
@@ -32,7 +33,7 @@ const QUICK_LINKS: QuickLink[] = [
   { 
     href: "/admin/users", 
     label: "Manage members", 
-    description: "Contacts, roles & projects",
+    description: "Roles, payments & projects",
     icon: Users,
     styles: "bg-blue-500/10 border-blue-500/20 hover:bg-blue-500/20 " 
   },
@@ -56,6 +57,13 @@ const QUICK_LINKS: QuickLink[] = [
     description: "Confirm or reject registrations",
     icon: GraduationCap,
     styles: "bg-teal-500/10 border-teal-500/20 hover:bg-teal-500/20 " 
+  },
+  { 
+    href: "/admin/payments", 
+    label: "Payments & receipts", 
+    description: "Cash / Orange Money, verify",
+    icon: Receipt,
+    styles: "bg-orange-500/10 border-orange-500/20 hover:bg-orange-500/20 " 
   },
   { 
     href: "/admin/announcements", 

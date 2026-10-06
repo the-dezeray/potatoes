@@ -11,6 +11,7 @@ import {
   BarChart,
   Award,
   GraduationCap,
+  Receipt,
   Home,
   LogOut
 } from "lucide-react"
@@ -75,6 +76,12 @@ export default function AdminLayout({
                 <Link href="/admin/enrollments">
                   <GraduationCap className="w-4 h-4 text-slate-500" />
                   <span>Enrollments</span>
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" className="justify-start hover:bg-slate-100 gap-3 px-4">
+                <Link href="/admin/payments">
+                  <Receipt className="w-4 h-4 text-slate-500" />
+                  <span>Payments</span>
                 </Link>
               </Button>
               <Button asChild variant="ghost" className="justify-start hover:bg-slate-100 gap-3 px-4">

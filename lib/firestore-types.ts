@@ -101,6 +101,39 @@ export type AnnouncementDoc = {
 
 export type AnnouncementRow = AnnouncementDoc & { id: string }
 
+// ─── Payments / Receipts ────────────────────────────────────────────────────
+
+export type PaymentMethod = "cash" | "orange_money"
+
+export type PaymentStatus = "paid" | "voided"
+
+export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
+  cash: "Cash",
+  orange_money: "Orange Money",
+}
+
+export type PaymentDoc = {
+  userId?: string
+  memberName: string
+  memberEmail?: string
+  /** generic fee label, e.g. "2026 Membership", "Affiliation Fee" */
+  label: string
+  amount: number
+  currency?: string
+  method: PaymentMethod
+  /** Orange Money TxID (required for orange_money), optional note for cash */
+  reference?: string
+  notes?: string
+  receiptNo: string
+  status?: PaymentStatus
+  paidAt?: Timestamp
+  createdAt?: Timestamp
+  createdBy?: string | null
+  voidedAt?: Timestamp
+}
+
+export type PaymentRow = PaymentDoc & { id: string }
+
 // ─── Audit Logs ───────────────────────────────────────────────────────────────
 
 export type AuditAction =
@@ -120,12 +153,15 @@ export type AuditAction =
   | "certificate.issued"
   | "certificate.revoked"
   | "enrollment.status_changed"
+  | "payment.recorded"
+  | "payment.voided"
+  | "payment.deleted"
 
 export type AuditLogDoc = {
   actorUid: string
   actorEmail?: string
   action: AuditAction
-  targetType: "user" | "project" | "application" | "announcement" | "certificateEvent" | "certificate" | "enrollment"
+  targetType: "user" | "project" | "application" | "announcement" | "certificateEvent" | "certificate" | "enrollment" | "payment"
   targetId: string
   targetLabel?: string
   metadata?: Record<string, unknown>
