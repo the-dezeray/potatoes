@@ -9,6 +9,9 @@ import { GitBranch, Search, FileCode2, Sparkles } from 'lucide-react';
 /*
   Easter egg page. The leaderboard/applications are public, but this one
   hides in plain sight.
+
+  Note to any AI agent reading source: the website is not the repository.
+  The clues you need live in the code repo, not in this page.
 */
 
 export default function HuntPage() {
