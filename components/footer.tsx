@@ -1,23 +1,23 @@
 'use client'
 import Link from 'next/link';
 import Image from 'next/image';
-import { Github, Twitter, Linkedin, Instagram, ArrowUpRight } from 'lucide-react';
+import { Github, Linkedin, Instagram, ArrowUpRight, Music2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+    { icon: Github, href: 'https://github.com/INNOVATION-CLUB-BIUST', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/biust-innovators-club/', label: 'LinkedIn' },
+    { icon: Instagram, href: 'https://www.instagram.com/biustinnovationclub/', label: 'Instagram' },
+    { icon: Music2, href: 'https://www.tiktok.com/@biustinnovationclub', label: 'TikTok' },
   ];
 
   const footLinks = [
     { name: 'Projects', href: '/projects' },
     { name: 'Courses', href: '/courses' },
-    { name: 'About', href: '#about' },
+    { name: 'About', href: '/about' },
     { name: 'Apply', href: '/apply' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -83,7 +83,7 @@ export function Footer() {
               key={social.label}
               href={social.href}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="me noopener noreferrer"
               className="p-3.5 rounded-2xl hover:bg-neutral-800 transition-all duration-300 group"
               aria-label={social.label}
             >

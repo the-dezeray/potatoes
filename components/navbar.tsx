@@ -28,7 +28,14 @@ export function Navbar() {
         </Link>
 
         {/* Nav */}
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-1" aria-label="Main navigation">
+
+          <Link
+            href="/about"
+            className="hidden sm:flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-bold text-[#1c1c1c] border border-transparent hover:border-[#1c1c1c] hover:bg-[#fbd35a] hover:shadow-[2px_2px_0px_0px_#1c1c1c] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all"
+          >
+            <span>About</span>
+          </Link>
 
           <Link
             href="/contact"

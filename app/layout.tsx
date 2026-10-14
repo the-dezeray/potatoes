@@ -15,9 +15,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BIUST Innovation Club",
-  description: "The central hub for academic resources, club events, and official notices.",
-
+  metadataBase: new URL("https://biustinnovation.com"),
+  title: {
+    default: "BIUST Innovation Club | Student Tech & Innovation in Botswana",
+    template: "%s | BIUST Innovation Club",
+  },
+  description:
+    "BIUST Innovation Club — the student tech and innovation club at Botswana International University of Science and Technology (BIUST), Palapye. Projects, hack nights, courses, and community.",
+  keywords: [
+    "BIUST Innovation Club",
+    "BIUST",
+    "Botswana tech",
+    "Palapye",
+    "student developers",
+    "hackathons Botswana",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "BIUST Innovation Club",
+    locale: "en",
+    url: "https://biustinnovation.com",
+    title: "BIUST Innovation Club | Student Tech & Innovation in Botswana",
+    description:
+      "Student-run tech club at BIUST Palapye. We build real projects, host hack nights, and grow Botswana's tech talent.",
+    images: [{ url: "/image10.webp", width: 1200, height: 630, alt: "BIUST Innovation Club" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BIUST Innovation Club",
+    description: "Student tech & innovation club at BIUST, Botswana. Build, learn, ship.",
+    images: ["/image10.webp"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
